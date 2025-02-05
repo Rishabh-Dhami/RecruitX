@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
+import { userRouter } from './routes/user.routes.js';
 dotenv.config();
 
 
@@ -15,6 +16,6 @@ app.get('/', (req, res) => {
     res.send("hello")
 });
 
-
+app.use("/api/v1/user", userRouter);
 
 export {app}
