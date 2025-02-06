@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUserprofile, userLogin, userLogout, userSignUp } from '../controllers/user.controller.js';
+import { getUserprofile, refreshAccessToken, userLogin, userLogout, userSignUp } from '../controllers/user.controller.js';
 import { verifyUser } from '../middlewares/verifyUser.middleware.js';
 
 
@@ -24,8 +24,8 @@ Router.route('/profile')
 
 
 // route of user verifing
-Router.route('/test')
-.get(verifyUser)
+Router.route('/refresh-accesstoken')
+.get(verifyUser, refreshAccessToken)
 
 
 

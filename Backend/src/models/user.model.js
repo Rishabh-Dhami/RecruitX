@@ -24,11 +24,18 @@ const userSchema = new Schema({
         trim : true,
         select : false
     },
+    role: {
+        type: String,
+        required: true,
+        enum: ["recruiter", "candidate", "admin"],
+        default: "candidate",
+        lowercase: true 
+    },
     refreshToken :{
         type : String,
         select : false
     }
-});
+}, {timestamps : true});
 
 userSchema.pre('save', async function (next) {
     if (this.isModified('password') || this.isNew) {
@@ -58,7 +65,7 @@ userSchema.methods.generateRefreshToken = function () {
 
 userSchema.methods.generateAccessToken = function () {
     return jwt.sign(
-        { id: this._id , fullname : this.fullname}, 
+        { id: this._id , fullname : this.fullname , role : this.role}, 
         process.env.ACCESS_TOKEN_SECRET, 
         { expiresIn: "15m" } // Adjust expiration as needed
     );

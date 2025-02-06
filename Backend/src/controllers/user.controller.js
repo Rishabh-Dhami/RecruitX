@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import {ApiError} from '../utils/ApiError.js'
 import {User} from '../models/user.model.js';
 import { ApiResponse } from "../utils/ApiResponse.js";
-
+import jwt from 'jsonwebtoken';
 
 const generateAccessTokenAndRefreshToken = async(user_id) => {
 
@@ -36,9 +36,9 @@ const options = {
 }
 
 const userSignUp = asyncHandler(async(req, res, next) => {
-    const {fullname, email, password, confirmPassword} = req.body;
+    const {fullname, email, password, confirmPassword, role} = req.body;
 
-    if(!fullname|| !email || !password || !confirmPassword){
+    if(!fullname|| !email || !password || !confirmPassword || !role){
         throw new ApiError(400, "All fields are required");
     }
 
@@ -56,7 +56,8 @@ const userSignUp = asyncHandler(async(req, res, next) => {
     const user = await User.create({
         fullname,
         email,
-        password
+        password,
+        role
     });
 
 
@@ -170,7 +171,7 @@ const getUserprofile = asyncHandler(async(req, res, next) => {
 
 const refreshAccessToken = asyncHandler(async(req, res, next) => {
     try {
-        const token = req.cookies?.refershToken;
+        const token = req.cookies?.refreshToken;
 
     if(!token){
         throw new ApiError(401, "Unauthorized request!")
