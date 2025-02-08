@@ -52,8 +52,7 @@ const createJobs = asyncHandler(async(req, res, next) => {
         !location ||
         !salary ||
         !description ||
-        !Array.isArray(applicationForm?.question) || applicationForm.question.length === 0 ||
-        !Array.isArray(applicationForm?.answer) || applicationForm.answer.length === 0
+        !Array.isArray(applicationForm) || applicationForm.length === 0
     ) {
         throw new ApiError(400, "All fields are required ");
     }

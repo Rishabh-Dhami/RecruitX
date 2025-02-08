@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from "dotenv";
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
-import { jobRouter, userRouter } from './routes/index.js';
+import { applicantRouter, jobRouter, userRouter } from './routes/index.js';
 dotenv.config();
 
 
@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/jobs", jobRouter);
+app.use("/api/v1/jobs", applicantRouter);
 
 
 app.use((err, req, res, next) => {

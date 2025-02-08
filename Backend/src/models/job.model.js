@@ -30,10 +30,12 @@ const jobSchema = new Schema({
         trim : true,
         minlength: [10, "Job description must be at least 10 characters"],
     },
-    applicationForm: {
-        question: [String],
-        answer: [String]
-    },
+    applicationForm: [
+        {
+            question: { type: String, required: true },
+            answer: { type: String, required: true }
+        }
+    ],
     owner : {
         type : mongoose.Types.ObjectId,
         ref : "User"
@@ -42,7 +44,7 @@ const jobSchema = new Schema({
         {
             applicant : {
                 type : mongoose.Types.ObjectId,
-                ref : "User"
+                ref : "Applicant"
             },
             status : {
                 type : String,
