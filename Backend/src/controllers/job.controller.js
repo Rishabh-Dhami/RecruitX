@@ -36,7 +36,7 @@ const getJobs = asyncHandler(async(req, res, next) => {
 });
 
 const createJobs = asyncHandler(async(req, res, next) => {
-    const {jobTitle,  employmentType, location, salary, description, applicationForm} = req.body;
+    const {jobTitle,  employmentType, location, salary, description, companyName} = req.body;
 
     if (!req.user) {
         throw new ApiError(401, "Unauthorized: Please log in to post a job");
@@ -52,7 +52,7 @@ const createJobs = asyncHandler(async(req, res, next) => {
         !location ||
         !salary ||
         !description ||
-        !Array.isArray(applicationForm) || applicationForm.length === 0
+        !companyName 
     ) {
         throw new ApiError(400, "All fields are required ");
     }
@@ -63,8 +63,8 @@ const createJobs = asyncHandler(async(req, res, next) => {
         employmentType,
         location,
         salary,
+        companyName,
         description,
-        applicationForm,
         owner: req.user.id,
     });
 
@@ -123,9 +123,9 @@ const updateJob = asyncHandler(async(req, res, next) => {
         throw new ApiError(400, "JobId is required to update job");
     }
 
-    const {jobTitle,  employmentType, location, salary, description, applicationForm} = req.body;
+    const {jobTitle,  employmentType, location, salary, description, companyName} = req.body;
 
-    if(!jobTitle || !employmentType || !location || !salary || !description || !applicationForm?.question || !applicationForm?.answer){
+    if(!jobTitle || !employmentType || !location || !salary || !description || !companyName){
         throw new ApiError(400, "All fields are required!");
     }
 
@@ -147,7 +147,7 @@ const updateJob = asyncHandler(async(req, res, next) => {
     
         const updatedJob = await Job.findByIdAndUpdate(
             jobId,
-            {$set : {jobTitle,  employmentType, location, salary, description, applicationForm}},
+            {$set : {jobTitle,  employmentType, location, salary, description, companyName}},
             {new : true , runValidators : true});
 
             if(!updatedJob){
@@ -179,6 +179,8 @@ const getJob = asyncHandler(async(req, res, next) => {
     .populate("owner", "name email")
     .populate("applicants.applicant", "name email role");
 
+    const totalJobs = job.applicants.length;
+    
     if(!job){
         throw new ApiError(404, "Job not found!");
     }
@@ -187,7 +189,10 @@ const getJob = asyncHandler(async(req, res, next) => {
     .json(new ApiResponse(
         200,
         "Job fetched successfully!",
-        job
+        {
+            job,
+            totalJobs
+        }
     ));
 });
 

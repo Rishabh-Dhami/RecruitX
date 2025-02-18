@@ -57,16 +57,16 @@ function Login() {
 
   return (
     <div className='w-full h-[95vh] flex items-center justify-center'>
-     <div className='w-[40%] shadow-black shadow-sm flex items-center justify-center py-9 px-6 '>
+     <div className='w-[36%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex items-center justify-center py-9 px-6 '>
       <form onSubmit={submitHandler} className='w-full'>
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        <div className='mb-4 w-full'>
+        <div className='mb-4 w-full '>
           <label htmlFor="email">Email</label> <br />
           <input 
           type="email" 
           name="email" 
           id="email" 
-          className='w-full border py-2 px-4 mt-2'
+          className='w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2'
           onChange={(e) => setEmail(e.target.value)}
           value={email}
           required
@@ -79,7 +79,7 @@ function Login() {
           type={showPassword ? "password" : "text"} 
           name="password" 
           id="password" 
-          className=' w-full border py-2 px-4 mt-2' 
+          className=' w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2' 
           onChange={(e) => setPassword(e.target.value)}
           value={password}
           required
@@ -95,7 +95,7 @@ function Login() {
         <button
             type="submit"
             disabled={loading}
-            className={`bg-[#1D4ED8] text-white w-full py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`bg-[#1D4ED8] text-white rounded-lg w-full py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>

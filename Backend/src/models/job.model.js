@@ -8,6 +8,11 @@ const jobSchema = new Schema({
         minlength: [3, "Job title must be at least 3 characters"],
         maxlength: [100, "Job title cannot exceed 100 characters"],
     },
+    companyName :{
+        type : String,
+        trim : true,
+        required : true
+    },
     employmentType : {
         type : String,
         trim : true,
@@ -30,12 +35,6 @@ const jobSchema = new Schema({
         trim : true,
         minlength: [10, "Job description must be at least 10 characters"],
     },
-    applicationForm: [
-        {
-            question: { type: String, required: true },
-            answer: { type: String, required: true }
-        }
-    ],
     owner : {
         type : mongoose.Types.ObjectId,
         ref : "User"

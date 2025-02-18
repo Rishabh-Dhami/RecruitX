@@ -1,13 +1,15 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Home, AddJob, AllJobs, Login, Signup, Editjob} from './pages/index.js';
+import { Home, AddJob, AllJobs, Login, Signup, Editjob, Job} from './pages/index.js';
 import App from './App';
 import "@fontsource/inter"; 
 import './index.css'
 import { Provider } from 'react-redux';
 import { store } from './store/store.js';
 import AuthLayout from './Components/AuthLayout.jsx';
+import 'remixicon/fonts/remixicon.css';
+
 
 
 const router = createBrowserRouter([
@@ -37,6 +39,12 @@ const router = createBrowserRouter([
         path :"/all-jobs",
         element : <AuthLayout authentication={true}>
             <AllJobs/>
+        </AuthLayout>
+      },
+      {
+        path :"/job/:slug",
+        element : <AuthLayout authentication={true}>
+            <Job/>
         </AuthLayout>
       },
       {

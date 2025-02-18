@@ -82,7 +82,7 @@ function Signup() {
 
   return (
     <div className='w-full min-h-[112vh] flex items-center justify-center'>
-     <div className='w-[40%] shadow-black shadow-sm flex items-center justify-center py-9 px-6 '>
+     <div className='w-[36%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] shadow-gray-50 flex items-center justify-center py-9 px-6 rounded-md '>
       <form onSubmit={submitHandler} className='w-full'>
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       <div className='mb-4 w-full'>
@@ -91,7 +91,7 @@ function Signup() {
           type="text" 
           name="fullname" 
           id="fullname" 
-          className='w-full border py-2 px-4 mt-2'
+          className='w-full  py-2 px-4 mt-2 bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg '
           onChange={(e) => setFullname(e.target.value)}
           value={fullname}
           required
@@ -103,7 +103,7 @@ function Signup() {
           type="email" 
           name="email" 
           id="email" 
-          className='w-full border py-2 px-4 mt-2'
+          className='w-full  py-2 px-4 mt-2 bg-[#191B1F] rounded-lg shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -116,7 +116,7 @@ function Signup() {
           type={showEye ? "password" : "text"} 
           name="password" 
           id="password" 
-          className=' w-full border py-2 px-4 mt-2' 
+          className=' w-full bg-[#191B1F] rounded-lg shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 py-2 px-4 mt-2' 
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           />
@@ -135,7 +135,7 @@ function Signup() {
           type={confirmEye ? "password" : "text"} 
           name="confirmPassword" 
           id="confirmPassword" 
-          className=' w-full border py-2 px-4 mt-2' 
+          className=' w-full bg-[#191B1F] rounded-lg shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 py-2 px-4 mt-2' 
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
@@ -153,7 +153,7 @@ function Signup() {
           <select  
           name="role"
           id="role"
-          className="w-full text-center mt-2 py-2 border rounded-lg"
+          className="w-full text-center mt-2 py-2 rounded-lg bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0"
           value={role}
           onChange={(e) => setRole(e.target.value)}
           required
@@ -167,7 +167,7 @@ function Signup() {
         <button 
         type="submit" 
         disabled={loading} 
-        className={`bg-[#1D4ED8] text-white w-full py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+        className={`bg-[#1D4ED8] text-white w-full rounded-lg py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
             {loading ? "Signing Up..." : "Sign Up"}
         </button>
