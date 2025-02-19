@@ -4,16 +4,15 @@
 
 /* For WebKit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-    width: 7px;
-    background: #0D131F; /* Scrollbar track (background) */
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: #49A0CB; /* Scrollbar thumb */
-    border-radius: 5px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #3681A3; /* Slightly darker shade on hover */
-  }
-  
+  width: 7px;
+  background: #0d131f; /* Scrollbar track (background) */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #49a0cb; /* Scrollbar thumb */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3681a3; /* Slightly darker shade on hover */
+}

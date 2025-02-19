@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { login } from '../store/authSlice';
-import axiosInstance from '../utils/axiosInstance';
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { login } from "../store/authSlice";
+import axiosInstance from "../utils/axiosInstance";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -21,88 +20,92 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  
-
-  const submitHandler = async(e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     const data = {
       email,
-      password
-    }
+      password,
+    };
 
     try {
       SetLoading(true);
-      const response = await axiosInstance.post(`/user/login`,
-        data,
-        {
-        headers : {"content-type" : "application/json"},
-        withCredentials : true
-      }
-      ); 
+      const response = await axiosInstance.post(`/user/login`, data, {
+        headers: { "content-type": "application/json" },
+        withCredentials: true,
+      });
 
-      if(response.status == 200){
-        dispatch(login({userData : response.data.info.user, accessToken : response.data.info.accessToken}));
+      if (response.status == 200) {
+        dispatch(
+          login({
+            userData: response.data.info.user,
+            accessToken: response.data.info.accessToken,
+          }),
+        );
         setEmail("");
         setPassword("");
-        navigate("/"); 
+        navigate("/");
       }
     } catch (error) {
       setError(error.response?.data?.message || "Invalid email or password");
-    }finally{
+    } finally {
       SetLoading(false);
     }
-  }
-
+  };
 
   return (
-    <div className='w-full h-[95vh] flex items-center justify-center'>
-     <div className='w-[36%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex items-center justify-center py-9 px-6 '>
-      <form onSubmit={submitHandler} className='w-full'>
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        <div className='mb-4 w-full '>
-          <label htmlFor="email">Email</label> <br />
-          <input 
-          type="email" 
-          name="email" 
-          id="email" 
-          className='w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2'
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          required
-          />
-        </div>
-        <div className='mb-4 w-full'>
-          <label htmlFor="password">Password</label><br />
-          <div className="relative">
-          <input 
-          type={showPassword ? "password" : "text"} 
-          name="password" 
-          id="password" 
-          className=' w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2' 
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          required
-          />
-          <span
-              className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-gray-500"
-              onClick={togglePasswordVisibility}
-          >
-            {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
-          </span>
+    <div className="w-full h-[95vh] flex items-center justify-center">
+      <div className="w-[36%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex items-center justify-center py-9 px-6 ">
+        <form onSubmit={submitHandler} className="w-full">
+          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          <div className="mb-4 w-full ">
+            <label htmlFor="email">Email</label> <br />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+            />
           </div>
-        </div>
-        <button
+          <div className="mb-4 w-full">
+            <label htmlFor="password">Password</label>
+            <br />
+            <div className="relative">
+              <input
+                type={showPassword ? "password" : "text"}
+                name="password"
+                id="password"
+                className=" w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                required
+              />
+              <span
+                className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <AiOutlineEyeInvisible size={20} />
+                ) : (
+                  <AiOutlineEye size={20} />
+                )}
+              </span>
+            </div>
+          </div>
+          <button
             type="submit"
             disabled={loading}
             className={`bg-[#1D4ED8] text-white rounded-lg w-full py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-      </form>
-     </div>
+        </form>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

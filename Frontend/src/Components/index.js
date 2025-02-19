@@ -6,14 +6,12 @@ import Hero from "./Hero";
 import Howitswork from "./Howitswork";
 import FeaturedJob from "./FeaturedJob";
 
-
-
 export {
-    Footer,
-    Header,
-    AuthLayout,
-    PopularJob, 
-    Hero,
-    Howitswork,
-    FeaturedJob
-}
+  Footer,
+  Header,
+  AuthLayout,
+  PopularJob,
+  Hero,
+  Howitswork,
+  FeaturedJob,
+};
