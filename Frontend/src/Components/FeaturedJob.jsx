@@ -48,7 +48,7 @@ function FeaturedJob() {
           <p className='text-gray-300 text-sm'>{item.description}</p>
           <div className='mt-4 flex justify-between items-center'>
             <h4 className='text-xl font-semibold'>${item.salary}/month</h4>
-            {(userData?.role === "candidate") ? <button className='bg-white text-black py-2 px-6 text-sm rounded-lg'>Apply Now</button> : null}
+            {(userData?.role === "candidate") ? <Link to={`/job/${item?._id}/apply`} className='bg-white text-black py-2 px-6 text-sm rounded-lg'>Apply Now</Link> : null}
           </div>
         </div>
         ) )}

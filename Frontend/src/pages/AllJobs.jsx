@@ -67,7 +67,7 @@ function AllJobs() {
 
   return ( 
     loading ? 
-     <div className='w-full h-80vh'><h1 className='text-5xl font-bold'>Loading....</h1></div>
+     <div className='w-full h-[80vh] flex items-center justify-center'><h1 className='text-5xl font-bold'>Loading....</h1></div>
     :
     <div className='w-full h-full flex justify-center items-center flex-col p-20  gap-5'>
       {alertMessage && <div className='fixed top-0 left-0 right-0 bg-red-500 text-white text-center py-2'>{alertMessage}</div>}
@@ -88,16 +88,16 @@ function AllJobs() {
         </div>
         <div className='my-2'>
           <h5>{data.jobTitle}</h5>
-          <p className='text-xs text-gray-400'>{data.employmentType}</p>
+          <p className='text-xs text-gray-400'>{data?.employmentType}</p>
         </div>
         <p className='text-gray-300 text-sm'>
-          {data.description}
+          {data?.description}
         </p>
         <div className='mt-2 flex justify-between items-center'>
-          <h4 className='text-xl font-semibold'>${data.salary}/month</h4>
-          <Link to={`/job/${data?._id}`}>
+          <h4 className='text-xl font-semibold'>${data?.salary}/month</h4>
+          {userData?.role === "candidate" ? <Link to={`/job/${data?._id}/apply`}>
           <button className='bg-white text-black py-2 px-6 text-sm rounded-lg'>Apply Now</button>
-          </Link>
+          </Link> : null}
         </div>
       </div>
       ))}

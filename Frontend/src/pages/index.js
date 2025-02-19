@@ -1,10 +1,11 @@
 import AddJob from "./AddJob";
 import AllJobs from "./AllJobs";
+import ApplyJob from "./ApplyJob";
 import Editjob from "./Editjob";
 import Home from "./Home";
-import Job from "./Job";
 import Login from "./Login";
 import Signup from "./Signup";
+
 
 
 export {
@@ -14,5 +15,5 @@ export {
     Login,
     Signup,
     Home,
-    Job
+    ApplyJob
 }

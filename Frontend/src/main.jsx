@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Home, AddJob, AllJobs, Login, Signup, Editjob, Job} from './pages/index.js';
+import { Home, AddJob, AllJobs, Login, Signup, Editjob, ApplyJob} from './pages/index.js';
 import App from './App';
 import "@fontsource/inter"; 
 import './index.css'
@@ -42,15 +42,15 @@ const router = createBrowserRouter([
         </AuthLayout>
       },
       {
-        path :"/job/:slug",
-        element : <AuthLayout authentication={true}>
-            <Job/>
-        </AuthLayout>
-      },
-      {
         path : "/edit-job/:slug",
         element : <AuthLayout authentication={true}>
           <Editjob/>
+        </AuthLayout>
+      },
+      {
+        path : "/job/:slug/apply",
+        element : <AuthLayout authentication={true}>
+          <ApplyJob/>
         </AuthLayout>
       }
     ]
