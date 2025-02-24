@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
-import { data, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function AllJobs() {
@@ -14,6 +14,14 @@ function AllJobs() {
 
   const userData = useSelector((state) => state.auth?.userData);
 
+  function handlePrevPage(){
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+  
+  function handleNextPage(){
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -25,6 +33,7 @@ function AllJobs() {
             withCredentials: true,
           },
         );
+        console.log(response.data)
 
         if (response.status === 200) {
           setJobs(response?.data?.info?.jobs || []);
@@ -40,13 +49,9 @@ function AllJobs() {
     fetchJobs();
   }, [currentPage]);
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+  
+  
+  console.log(currentPage)
 
   const deleteJob = async (jobId) => {
     try {
@@ -66,29 +71,30 @@ function AllJobs() {
   };
 
   return loading ? (
-    <div className="w-full h-[80vh] flex items-center justify-center">
-      <h1 className="text-5xl font-bold">Loading....</h1>
+    <div className="w-full h-[80vh] py-4 px-6 sm:px-8 lg:px-20 flex items-center justify-center">
+      <h1 className="text-4xl lg:text-5xl font-bold">Loading....</h1>
     </div>
   ) : (
-    <div className="w-full h-full flex justify-center items-center flex-col p-20  gap-5">
+    <div className="w-full h-full flex flex-col p-5 lg:p-20 gap-5">
       {alertMessage && (
         <div className="fixed top-0 left-0 right-0 bg-red-500 text-white text-center py-2">
           {alertMessage}
         </div>
       )}
-      {error && <p className="text-red-500">{error}</p>}
-      {jobs.map((data, index) => (
+      {error && <p className="text-red-500 text-center">{error}</p>}
+      <div className="grid  grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        {jobs.map((data, index) => (
         <div
           key={index}
-          className="w-full relative  p-8  py-4 bg-[#333333] hover:bg-[#408BB1] rounded-xl"
+          className="w-full relative p-5 lg:p-8  py-4 bg-[#333333] hover:bg-[#408BB1] rounded-xl"
         >
-          <div className=" absolute top-4 right-8 flex justify-center items-center gap-3">
+          <div className="absolute top-4 right-4 flex gap-2">
             {userData?._id == data?.owner ? (
               <Link
                 to={`/edit-job/${data._id}`}
                 className="bg-blue-700 hover:bg-blue-500 py-1 px-2 rounded-md"
               >
-                Edit
+               <i className="ri-pencil-fill"></i>
               </Link>
             ) : null}
             {userData?._id == data?.owner || userData?.role === "admin" ? (
@@ -96,7 +102,7 @@ function AllJobs() {
                 onClick={() => deleteJob(`${data._id}`)}
                 className="bg-red-700 hover:bg-red-500 py-1 px-2 rounded-md"
               >
-                Delete
+                <i className="ri-delete-bin-fill"></i>
               </button>
             ) : null}
           </div>
@@ -113,11 +119,11 @@ function AllJobs() {
             <p className="text-xs text-gray-400">{data?.employmentType}</p>
           </div>
           <p className="text-gray-300 text-sm">{data?.description}</p>
-          <div className="mt-2 flex justify-between items-center">
-            <h4 className="text-xl font-semibold">${data?.salary}/month</h4>
+          <div className="mt-4 w-full flex-col h-full  justify-between items-center  gap-8">
+            <h4 className="text-lg lg:text-xl font-semibold">${data?.salary}/month</h4>
             {userData?.role === "candidate" ? (
               <Link to={`/job/${data?._id}/apply`}>
-                <button className="bg-white text-black py-2 px-6 text-sm rounded-lg">
+                <button className="bg-white  text-black py-2 px-4 text-xs lg:text-sm rounded-lg">
                   Apply Now
                 </button>
               </Link>
@@ -125,25 +131,27 @@ function AllJobs() {
           </div>
         </div>
       ))}
-      <div className=" w-full mt-5">
+       </div>
+      <div className="relative z-999 w-full mt-5">
         <span className="text-white block w-full text-center">
           Page {currentPage} of {totalPages}
         </span>
         <div className="w-full flex items-center justify-center gap-3 mt-4">
-          <button
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-            className="bg-gray-600 text-white py-1 px-2 rounded disabled:opacity-50"
-          >
-            <i className="ri-arrow-left-wide-line"></i>
-          </button>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="bg-gray-600 text-white py-1 px-2 rounded disabled:opacity-50"
-          >
-            <i className="ri-arrow-right-wide-fill"></i>
-          </button>
+        <button
+        onClick={() => {handlePrevPage()}}
+        disabled={currentPage <= 1} // Ensure it disables at page 1
+        className="bg-gray-600 text-white py-1 px-2 rounded disabled:opacity-50"
+        >
+        <i className="ri-arrow-left-wide-line"></i>
+        </button>
+        <button
+        onClick={() => {handleNextPage()}}
+        disabled={currentPage >= totalPages} // Ensure it disables on last page
+         className="bg-gray-600 text-white py-1 px-2 rounded disabled:opacity-50"
+         >
+        <i className="ri-arrow-right-wide-fill"></i>
+        </button>
+
         </div>
       </div>
     </div>

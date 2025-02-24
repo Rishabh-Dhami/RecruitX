@@ -76,41 +76,36 @@ function Editjob() {
     }
   };
   return (
-    <div className="w-full min-h-[112vh] flex items-center justify-center">
-      <div className="w-[36%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] shadow-gray-50 flex items-center justify-center py-9 px-6 rounded-md ">
+    <div className="w-full lg:min-h-screen min-h-[60vh] flex items-center justify-center p-4 sm:p-8">
+      <div className="w-full max-w-md bg-[#030508] shadow-md p-6 sm:p-9 rounded-lg">
         <form onSubmit={submitHandler} className="w-full">
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-          <div className="mb-4 w-full">
-            <label htmlFor="companyName">Company Name:</label> <br />
-            <input
-              type="text"
-              name="companyName"
-              id="companyName"
-              className="w-full  py-2 px-4 mt-2 bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg "
-              onChange={(e) => setCompanyName(e.target.value)}
-              value={companyName}
-              required
-            />
-          </div>
-          <div className="mb-4 w-full">
-            <label htmlFor="jobTitle">Job Title:</label> <br />
-            <input
-              type="text"
-              name="jobTitle"
-              id="jobTitle"
-              className="w-full  py-2 px-4 mt-2 bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg "
-              onChange={(e) => setJobTitle(e.target.value)}
-              value={jobTitle}
-              required
-            />
-          </div>
+          {[
+            { label: "Company Name", state: companyName, setter: setCompanyName },
+            { label: "Job Title", state: jobTitle, setter: setJobTitle },
+            { label: "Location", state: location, setter: setLocation },
+            { label: "Salary", state: salary, setter: (e) => setSalary(Number(e.target.value)), type: "number" }
+          ].map(({ label, state, setter, type = "text" }, index) => (
+            <div className="mb-4 w-full" key={index}>
+              <label htmlFor={label}>{label}:</label>
+              <input
+                type={type}
+                name={label}
+                id={label}
+                className="w-full py-2 px-4 mt-2 bg-[#191B1F] shadow-md outline-none border-0 rounded-lg"
+                onChange={(e) => setter(e.target.value)}
+                value={state}
+                required
+              />
+            </div>
+          ))}
           <div className="mb-4 w-full">
             <label htmlFor="employmentType">Employment Type:</label>
             <br />
             <select
               name="employmentType"
               id="employmentType"
-              className="w-full text-center mt-2 py-2 rounded-lg bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0"
+              className="w-full text-center mt-2 py-2 rounded-lg bg-[#191B1F] shadow-md outline-none border-0"
               value={employmentType}
               onChange={(e) => setEmploymentType(e.target.value)}
               required
@@ -124,38 +119,13 @@ function Editjob() {
             </select>
           </div>
           <div className="mb-4 w-full">
-            <label htmlFor="location">Location:</label> <br />
-            <input
-              type="text"
-              name="location"
-              id="location"
-              className="w-full  py-2 px-4 mt-2 bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg "
-              onChange={(e) => setLocation(e.target.value)}
-              value={location}
-              required
-            />
-          </div>
-          <div className="mb-4 w-full">
-            <label htmlFor="salary">Salary:</label> <br />
-            <input
-              type="number"
-              name="salary"
-              min={0}
-              id="salary"
-              className="w-full  py-2 px-4 mt-2 bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg "
-              onChange={(e) => setSalary(Number(e.target.value))}
-              value={salary}
-              required
-            />
-          </div>
-          <div className="mb-4 w-full">
             <label htmlFor="location">Description:</label> <br />
             <textarea
               type="text"
               rows={5}
               name="description"
               id="description"
-              className="w-full  py-2 px-4 mt-2 bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg "
+              className="w-full py-2 px-4 mt-2 bg-[#191B1F] shadow-md outline-none border-0 rounded-lg "
               onChange={(e) => setDescription(e.target.value)}
               value={description}
               required
@@ -166,7 +136,7 @@ function Editjob() {
             disabled={loading}
             className={`bg-[#1D4ED8] text-white w-full rounded-lg py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
           >
-            {loading ? "Adding Job..." : "Add Job"}
+            {loading ? "Editing Job..." : "Edit Job"}
           </button>
         </form>
       </div>

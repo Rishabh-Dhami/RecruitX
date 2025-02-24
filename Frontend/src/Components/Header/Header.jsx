@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/authSlice";
+import { Menu, X } from "lucide-react";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth?.userData || false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
     {
@@ -31,11 +33,12 @@ function Header() {
   };
 
   return (
-    <div className="w-full flex fixed top-0 justify-between z-[999] items-center py-4 px-20 bg-gradient bg-black text-white shadow-sm">
-      <div className="w-[12%]">
+    <header className="w-full fixed top-0 left-0 z-[999] bg-black text-white shadow-md">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-10 lg:px-20">
+      <div className="w-28 md:w-36">
         <img className="w-full h-full" src="/assets/logo.png" alt="Logo" />
       </div>
-      <ul className="flex justify-center items-center gap-5">
+      <ul className="hidden md:flex items-center gap-6">
         {navItems.map((item) =>
           item.active ? (
             <li key={item.name}>
@@ -44,7 +47,7 @@ function Header() {
           ) : null,
         )}
       </ul>
-      <div className="flex items-center justify-center gap-5">
+      <div className="hidden md:flex items-center gap-4">
         {!authStatus ? (
           <button onClick={() => navigate("/signup")}>Signup</button>
         ) : null}
@@ -66,8 +69,68 @@ function Header() {
           </button>
         ) : null}
       </div>
+      <button
+          className="md:hidden text-white"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
     </div>
-  );
-}
+
+    {menuOpen && (
+        <nav className="md:hidden bg-black text-white flex flex-col items-start pl-8 gap-4 py-6 transition-all">
+          {navItems.map(
+            (item) =>
+              item.active && (
+                <button
+                  key={item.name}
+                  onClick={() => {
+                    navigate(item.slug);
+                    setMenuOpen(false);
+                  }}
+                  className="hover:text-gray-300 transition"
+                >
+                  {item.name}
+                </button>
+              )
+          )}
+
+          {!authStatus ? (
+            <>
+              <button onClick={
+                () => {
+                  navigate("/signup");
+                  setMenuOpen(!menuOpen);
+                }
+              }
+                >Signup</button>
+              <button
+                onClick={() => {
+                  navigate("/login");
+                  setMenuOpen(!menuOpen);
+                }}
+                className="border border-[#49A0CB] text-[#49A0CB] hover:bg-[#49A0CB] hover:text-white py-2 px-4 rounded-full transition duration-300"
+              >
+                Login
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={ 
+                () => {
+                  handleLogout();
+                  setMenuOpen(!menuOpen);
+                }
+                }
+              className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-full transition duration-300"
+            >
+              Logout
+            </button>
+          )}
+        </nav>
+      )}
+    </header>
+      );
+};
 
 export default Header;

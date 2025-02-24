@@ -49,8 +49,8 @@ function AddJob() {
   };
 
   return (
-    <div className="w-full min-h-[112vh] flex items-center justify-center">
-      <div className="w-[36%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] shadow-gray-50 flex items-center justify-center py-9 px-6 rounded-md ">
+    <div className="w-full lg:min-h-screen min-h-[60vh] flex items-center justify-center p-4 sm:p-8">
+      <div className="w-full max-w-md bg-[#030508] shadow-md p-6 sm:p-9 rounded-lg">
         <form onSubmit={submitHandler} className="w-full">
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           <div className="mb-4 w-full">
