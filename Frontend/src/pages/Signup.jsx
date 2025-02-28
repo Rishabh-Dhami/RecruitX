@@ -15,6 +15,7 @@ function Signup() {
   const [confirmEye, setConfirmEye] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [avatar, setAvatar] = useState(null);
 
   const togglePasswordVisibility = () => {
     setShowEye(!showEye);
@@ -29,25 +30,29 @@ function Signup() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    setError("");
     if (password !== confirmPassword) {
       setError("Passwords do not match");
     }
 
-    const data = {
-      email,
-      password,
-      role,
-      fullname,
-      confirmPassword,
-    };
 
     try {
       setLoading(true);
 
-      const response = await axiosInstance.post(`/user/signup`, data, {
+      const formData = new FormData();
+
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("role", role);
+      formData.append("fullname", fullname);
+      formData.append("confirmPassword",confirmPassword)
+      if (avatar) {
+        formData.append("avatar", avatar); // Only append if an image is selected
+      }
+
+      const response = await axiosInstance.post(`/user/signup`, formData, {
         headers: {
-          "content-type": "application/json",
+          "content-type": "multipart/form-data",
         },
       });
 
@@ -64,7 +69,9 @@ function Signup() {
         setPassword("");
         setRole("");
         setFullname("");
+        setAvatar(null);
         navigate("/");
+        
       }
     } catch (error) {
       setError(error?.response?.data?.message || "Signup faild");
@@ -167,6 +174,17 @@ function Signup() {
               <option value="candidate">Candidate</option>
               <option value="admin">admin</option>
             </select>
+          </div>
+          <div className="mb-4 w-full">
+            <label htmlFor="avatar">Avatar</label>
+            <input
+                type="file"
+                name="avatar"
+                id="avatar"
+                className=" w-full bg-[#191B1F] rounded-lg shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 py-2 px-4 mt-2"
+                onChange={(e) => setAvatar(e.target.files[0])}
+                required
+              />
           </div>
           <button
             type="submit"

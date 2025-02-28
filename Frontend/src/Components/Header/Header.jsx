@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/authSlice";
 import { Menu, X } from "lucide-react";
+import UserProfile from "./UserProfile";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth?.userData || false);
@@ -33,8 +34,8 @@ function Header() {
   };
 
   return (
-    <header className="w-full fixed top-0 left-0 z-[999] bg-black text-white shadow-md">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-10 lg:px-20">
+    <header className="w-full fixed top-0 left-0 z-[999] bg-black text-white shadow-md ">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-10 lg:px-15">
       <div className="w-28 md:w-36">
         <img className="w-full h-full" src="/assets/logo.png" alt="Logo" />
       </div>
@@ -59,22 +60,18 @@ function Header() {
             Login
           </button>
         ) : null}
-
-        {authStatus ? (
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white  py-2 px-4 rounded-full duration-300 transition-colors"
-          >
-            Logout
-          </button>
-        ) : null}
+        { authStatus ? <UserProfile /> : null}
       </div>
+      <div className="md:hidden flex justify-center items-center gap-2">
+      <UserProfile  />
       <button
-          className="md:hidden text-white"
+          className=" text-white"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
+        
+      </div>
     </div>
 
     {menuOpen && (
@@ -92,6 +89,7 @@ function Header() {
                 >
                   {item.name}
                 </button>
+               
               )
           )}
 
@@ -114,19 +112,7 @@ function Header() {
                 Login
               </button>
             </>
-          ) : (
-            <button
-              onClick={ 
-                () => {
-                  handleLogout();
-                  setMenuOpen(!menuOpen);
-                }
-                }
-              className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-full transition duration-300"
-            >
-              Logout
-            </button>
-          )}
+          ): null}
         </nav>
       )}
     </header>

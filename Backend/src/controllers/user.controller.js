@@ -3,6 +3,9 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { application } from "express";
+import { uploadToCloudinary } from "../utils/cloudinary.js";
+import { info } from "console";
 
 const generateAccessTokenAndRefreshToken = async (user_id) => {
   if (!user_id) {
@@ -34,11 +37,16 @@ const options = {
 };
 
 const userSignUp = asyncHandler(async (req, res, next) => {
+ 
   const { fullname, email, password, confirmPassword, role } = req.body;
+
 
   if (!fullname || !email || !password || !confirmPassword || !role) {
     throw new ApiError(400, "All fields are required");
   }
+
+  
+
 
   if (password !== confirmPassword) {
     throw new ApiError(400, "Confirm password must equal to password");
@@ -50,11 +58,18 @@ const userSignUp = asyncHandler(async (req, res, next) => {
     throw new ApiError(409, "User already exist!");
   }
 
+  const cloudinaryResult = await uploadToCloudinary(req.file.path);
+
+  if(!cloudinaryResult || !cloudinaryResult.secure_url){
+    throw new ApiError(500, "Failed to upload avatar to Cloudinary");
+  }
+
   const user = await User.create({
     fullname,
     email,
     password,
     role,
+    avatar : cloudinaryResult?.secure_url
   });
 
   if (!user) {
@@ -166,6 +181,58 @@ const getUserprofile = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, "User profile fetched successfully!", user));
 });
 
+const editUserProfile = asyncHandler(async(req, res, next) => {
+  const {fullname, email} = req.body;
+  const {userId} = req.params;
+
+  if(!userId){
+    throw new ApiError(400, "userId is required to edit profile")
+  }
+
+  if(!fullname || !email){
+    throw new ApiError(400, "All fields are required!");
+  }
+
+  if(!req.file || ! req.file.path){
+    throw new ApiError(400, "Avatar is required");
+  }
+  
+  let cloudinaryResult;
+  try {
+    cloudinaryResult = await uploadToCloudinary(req.file.path);
+
+  if(!cloudinaryResult || !cloudinaryResult.secure_url){
+    throw new ApiError(500, "Failed to upload avatar to Cloudinary");
+  }
+  } catch (error) {
+    throw new ApiError(500, "Failed to upload avatar");
+  }
+
+  const user = await User.findById(userId);
+  if (!user) {
+  throw new ApiError(404, "User not found");
+  }
+
+  user.fullname = fullname;
+  user.email = email;
+  user.avatar = cloudinaryResult.secure_url;
+
+  await user.save();
+
+  const { refreshToken, accessToken } =
+    await generateAccessTokenAndRefreshToken(user._id);
+
+  res.status(200)
+  .json(new ApiResponse(
+    200,
+    "Profile Edited Successfully!",{
+      user,
+      refreshToken,
+      accessToken,
+    }
+  ));
+})
+
 const refreshAccessToken = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies?.refreshToken;
@@ -206,4 +273,5 @@ export {
   userLogout,
   getUserprofile,
   refreshAccessToken,
+  editUserProfile
 };
