@@ -81,10 +81,19 @@ function Editjob() {
         <form onSubmit={submitHandler} className="w-full">
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           {[
-            { label: "Company Name", state: companyName, setter: setCompanyName },
+            {
+              label: "Company Name",
+              state: companyName,
+              setter: setCompanyName,
+            },
             { label: "Job Title", state: jobTitle, setter: setJobTitle },
             { label: "Location", state: location, setter: setLocation },
-            { label: "Salary", state: salary, setter: (e) => setSalary(Number(e.target.value)), type: "number" }
+            {
+              label: "Salary",
+              state: salary,
+              setter: (e) => setSalary(Number(e.target.value)),
+              type: "number",
+            },
           ].map(({ label, state, setter, type = "text" }, index) => (
             <div className="mb-4 w-full" key={index}>
               <label htmlFor={label}>{label}:</label>

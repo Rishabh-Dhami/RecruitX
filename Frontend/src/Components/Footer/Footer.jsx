@@ -10,25 +10,47 @@ function Footer() {
             <img className="w-full h-full" src="/assets/logo.png" alt="Logo" />
           </div>
           <p className="text-sm md:text-base">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum porro
-          asperiores nam recusandae quasi saepe aliquid, consectetur cupiditate
-          mollitia ratione ipsam id esse libero inventore voluptas vitae hic
-          quas eveniet deserunt ipsa ducimus sequi consequuntur molestias
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum porro
+            asperiores nam recusandae quasi saepe aliquid, consectetur
+            cupiditate mollitia ratione ipsam id esse libero inventore voluptas
+            vitae hic quas eveniet deserunt ipsa ducimus sequi consequuntur
+            molestias
           </p>
         </div>
 
         {[
-          { title: "Links", items: ["Home", "Find a job", "Post a job", "Blog", "Contact"] },
-          { title: "About", items: ["Partners", "Careers", "Press", "Community"] },
-          { title: "Support", items: ["Customer Service", "Terms and Condition", "Security", "Our Team"] },
-          { title: "Contact", items: ["+91 8938070768", "recruitx12@gmail.com"] },
+          {
+            title: "Links",
+            items: ["Home", "Find a job", "Post a job", "Blog", "Contact"],
+          },
+          {
+            title: "About",
+            items: ["Partners", "Careers", "Press", "Community"],
+          },
+          {
+            title: "Support",
+            items: [
+              "Customer Service",
+              "Terms and Condition",
+              "Security",
+              "Our Team",
+            ],
+          },
+          {
+            title: "Contact",
+            items: ["+91 8938070768", "recruitx12@gmail.com"],
+          },
         ].map((section, index) => (
           <div key={index} className="w-full sm:w-[48%] md:w-auto">
-            <h1 className="font-semibold text-[#49A0CB] text-lg md:text-xl">{section.title}</h1>
+            <h1 className="font-semibold text-[#49A0CB] text-lg md:text-xl">
+              {section.title}
+            </h1>
             <ul className="mt-2 leading-[1.6]">
               {section.items.map((item, idx) => (
                 <li key={idx}>
-                  <Link to="#" className="text-sm md:text-base">{item}</Link>
+                  <Link to="#" className="text-sm md:text-base">
+                    {item}
+                  </Link>
                 </li>
               ))}
             </ul>

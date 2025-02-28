@@ -13,7 +13,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 const Router = express.Router();
 
 // route of user signup
-Router.route("/signup").post(upload.single('avatar'),userSignUp);
+Router.route("/signup").post(upload.single("avatar"), userSignUp);
 
 // route of user login
 Router.route("/login").post(userLogin);
@@ -22,11 +22,13 @@ Router.route("/login").post(userLogin);
 Router.route("/logout").get(verifyUser, userLogout);
 
 // route of user profile
-Router.route("/profile")
-.get(verifyUser, getUserprofile);
+Router.route("/profile").get(verifyUser, getUserprofile);
 
-Router.route("/profile/:userId")
-.patch(verifyUser,upload.single('avatar'), editUserProfile);
+Router.route("/profile/:userId").patch(
+  verifyUser,
+  upload.single("avatar"),
+  editUserProfile,
+);
 
 // route of user verifing
 Router.route("/refresh-accesstoken").get(verifyUser, refreshAccessToken);

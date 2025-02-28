@@ -21,8 +21,8 @@ function PopularJob() {
         </div>
         <div className="w-full flex justify-center items-center">
           <h2 className="mt-10 lg:w-[60%] text-center text-sm">
-            Discover the most in-demand job categories across various industries. 
-            Start your career in your desired field today!
+            Discover the most in-demand job categories across various
+            industries. Start your career in your desired field today!
           </h2>
         </div>
       </div>

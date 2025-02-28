@@ -8,7 +8,6 @@ import FeaturedJob from "./FeaturedJob";
 import Profile from "./Profile";
 import Security from "./Security";
 
-
 export {
   Footer,
   Header,
@@ -18,5 +17,5 @@ export {
   Howitswork,
   FeaturedJob,
   Profile,
-  Security
+  Security,
 };

@@ -10,7 +10,7 @@ import {
   Editjob,
   ApplyJob,
   Settings,
-  ProfileEdit
+  ProfileEdit,
 } from "./pages/index.js";
 import App from "./App";
 import "@fontsource/inter";
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         path: "/edit-profile",
         element: (
           <AuthLayout authentication={true}>
-            <ProfileEdit/>
+            <ProfileEdit />
           </AuthLayout>
         ),
       },
@@ -85,7 +85,6 @@ const router = createBrowserRouter([
           </AuthLayout>
         ),
       },
-      
     ],
   },
 ]);

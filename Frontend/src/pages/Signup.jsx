@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import axiosInstance from "../utils/axiosInstance";
+import { Link } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -35,7 +36,6 @@ function Signup() {
       setError("Passwords do not match");
     }
 
-
     try {
       setLoading(true);
 
@@ -45,7 +45,7 @@ function Signup() {
       formData.append("password", password);
       formData.append("role", role);
       formData.append("fullname", fullname);
-      formData.append("confirmPassword",confirmPassword)
+      formData.append("confirmPassword", confirmPassword);
       if (avatar) {
         formData.append("avatar", avatar); // Only append if an image is selected
       }
@@ -71,7 +71,6 @@ function Signup() {
         setFullname("");
         setAvatar(null);
         navigate("/");
-        
       }
     } catch (error) {
       setError(error?.response?.data?.message || "Signup faild");
@@ -178,13 +177,13 @@ function Signup() {
           <div className="mb-4 w-full">
             <label htmlFor="avatar">Avatar</label>
             <input
-                type="file"
-                name="avatar"
-                id="avatar"
-                className=" w-full bg-[#191B1F] rounded-lg shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 py-2 px-4 mt-2"
-                onChange={(e) => setAvatar(e.target.files[0])}
-                required
-              />
+              type="file"
+              name="avatar"
+              id="avatar"
+              className=" w-full bg-[#191B1F] rounded-lg shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 py-2 px-4 mt-2"
+              onChange={(e) => setAvatar(e.target.files[0])}
+              required
+            />
           </div>
           <button
             type="submit"
@@ -194,6 +193,15 @@ function Signup() {
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
+        <p className="text-center mt-4">
+          Already have an account?{" "}
+          <Link
+            className="text-blue-400 underline"
+            onClick={() => navigate("/login")}
+          >
+            Log In
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/authSlice";
 import { Menu, X } from "lucide-react";
@@ -36,45 +36,44 @@ function Header() {
   return (
     <header className="w-full fixed top-0 left-0 z-[999] bg-black text-white shadow-md ">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6 md:px-10 lg:px-15">
-      <div className="w-28 md:w-36">
-        <img className="w-full h-full" src="/assets/logo.png" alt="Logo" />
-      </div>
-      <ul className="hidden md:flex items-center gap-6">
-        {navItems.map((item) =>
-          item.active ? (
-            <li key={item.name}>
-              <button onClick={() => navigate(item.slug)}>{item.name}</button>
-            </li>
-          ) : null,
-        )}
-      </ul>
-      <div className="hidden md:flex items-center gap-4">
-        {!authStatus ? (
-          <button onClick={() => navigate("/signup")}>Signup</button>
-        ) : null}
-        {!authStatus ? (
+        <div className="w-28 md:w-36">
+          <img className="w-full h-full" src="/assets/logo.png" alt="Logo" />
+        </div>
+        <ul className="hidden md:flex items-center gap-6">
+          {navItems.map((item) =>
+            item.active ? (
+              <li key={item.name}>
+                <button onClick={() => navigate(item.slug)}>{item.name}</button>
+              </li>
+            ) : null,
+          )}
+        </ul>
+        <div className="hidden md:flex items-center gap-4">
+          {!authStatus ? (
+            <button onClick={() => navigate("/signup")}>Signup</button>
+          ) : null}
+          {!authStatus ? (
+            <button
+              onClick={() => navigate("/login")}
+              className=" bg-transparent border border-[#49A0CB] text-[#49A0CB] hover:bg-[#49A0CB] hover:text-white py-2 px-4 rounded-full transition-colors duration-300"
+            >
+              Login
+            </button>
+          ) : null}
+          {authStatus ? <UserProfile /> : null}
+        </div>
+        <div className="md:hidden flex justify-center items-center gap-2">
+          <UserProfile />
           <button
-            onClick={() => navigate("/login")}
-            className=" bg-transparent border border-[#49A0CB] text-[#49A0CB] hover:bg-[#49A0CB] hover:text-white py-2 px-4 rounded-full transition-colors duration-300"
+            className=" text-white"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            Login
+            {menuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
-        ) : null}
-        { authStatus ? <UserProfile /> : null}
+        </div>
       </div>
-      <div className="md:hidden flex justify-center items-center gap-2">
-      <UserProfile  />
-      <button
-          className=" text-white"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-        
-      </div>
-    </div>
 
-    {menuOpen && (
+      {menuOpen && (
         <nav className="md:hidden bg-black text-white flex flex-col items-start pl-8 gap-4 py-6 transition-all">
           {navItems.map(
             (item) =>
@@ -89,19 +88,19 @@ function Header() {
                 >
                   {item.name}
                 </button>
-               
-              )
+              ),
           )}
 
           {!authStatus ? (
             <>
-              <button onClick={
-                () => {
+              <button
+                onClick={() => {
                   navigate("/signup");
                   setMenuOpen(!menuOpen);
-                }
-              }
-                >Signup</button>
+                }}
+              >
+                Signup
+              </button>
               <button
                 onClick={() => {
                   navigate("/login");
@@ -112,11 +111,11 @@ function Header() {
                 Login
               </button>
             </>
-          ): null}
+          ) : null}
         </nav>
       )}
     </header>
-      );
-};
+  );
+}
 
 export default Header;

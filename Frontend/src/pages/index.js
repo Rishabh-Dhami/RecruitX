@@ -8,5 +8,14 @@ import ProfileEdit from "./ProfileEdit";
 import Settings from "./Settings";
 import Signup from "./Signup";
 
-
-export { AddJob, AllJobs, Editjob, Login, Signup, Home, ApplyJob, Settings, ProfileEdit };
+export {
+  AddJob,
+  AllJobs,
+  Editjob,
+  Login,
+  Signup,
+  Home,
+  ApplyJob,
+  Settings,
+  ProfileEdit,
+};
