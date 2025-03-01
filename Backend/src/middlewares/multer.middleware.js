@@ -1,15 +1,13 @@
 import multer from "multer";
-import path from "path";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/temp");
-  },
-  filename: (req, file, cb) => {
-    // Rename the file to include a timestamp
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const ext = path.extname(file.originalname); // Get file extension
-    cb(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "uploads", // Cloudinary folder name
+    allowed_formats: ["jpg", "png", "gif"],
+    public_id: (req, file) => `${file.fieldname}-${Date.now()}`,
   },
 });
 

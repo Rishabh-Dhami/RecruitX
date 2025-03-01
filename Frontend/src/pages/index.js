@@ -1,6 +1,7 @@
 import AddJob from "./AddJob";
 import AllJobs from "./AllJobs";
 import ApplyJob from "./ApplyJob";
+import Dashboard from "./Dashboard";
 import Editjob from "./Editjob";
 import Home from "./Home";
 import Login from "./Login";
@@ -18,4 +19,5 @@ export {
   ApplyJob,
   Settings,
   ProfileEdit,
+  Dashboard
 };

@@ -11,6 +11,7 @@ import {
   ApplyJob,
   Settings,
   ProfileEdit,
+  Dashboard,
 } from "./pages/index.js";
 import App from "./App";
 import "@fontsource/inter";
@@ -82,6 +83,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication={true}>
             <Settings />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <AuthLayout authentication={true}>
+            <Dashboard />
           </AuthLayout>
         ),
       },

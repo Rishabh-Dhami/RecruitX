@@ -25,7 +25,12 @@ function Header() {
     {
       name: "Add Job",
       slug: "/add-job",
-      active: authStatus.role == "recruiter" ? true : false,
+      active: authStatus?.role == "recruiter" ? true : false,
+    },
+    {
+      name: "Dashboard",
+      slug: "/dashboard",
+      active: authStatus ? true : false,
     },
   ];
 

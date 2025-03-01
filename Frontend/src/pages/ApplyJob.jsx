@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
 import { useParams } from "react-router-dom";
 import { PickerOverlay } from "filestack-react";
+import { useSelector } from "react-redux";
 
 function ApplyJob() {
-  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const [name, setName] = useState("");
   const [resumeUrl, setResumeUrl] = useState("");
   const { slug } = useParams();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const [job, setJob] = useState("")
+
+  const userData = useSelector((state) => state.auth?.userData);
+
+
+  useEffect(() => {
+    async function fetchJob(){
+      try {
+        const response = await axiosInstance.get(`/jobs/${slug}`,{
+          withCredentials : true
+        })
+
+        if(response.status === 200){
+          setJob(response.data.info?.job);
+        }
+      } catch (error) {
+        console.error(error);
+        setError(error.response?.data?.message || "failed to fecth job");
+      }
+    }
+
+    fetchJob();
+  },[slug])
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -26,8 +48,8 @@ function ApplyJob() {
     setLoading(true);
 
     const data = {
-      email,
-      name,
+      email : userData?.email,
+      name : userData?.fullname,
       resume: resumeUrl,
     };
 
@@ -72,33 +94,14 @@ function ApplyJob() {
           </h1>
         </div>
       ) : (
-        <div className="w-[36%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex items-center justify-center py-9 px-6 ">
+        <div className="w-[40%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex flex-col items-center justify-center py-9 px-6 ">
+          <div className="w-full  mb-5">
+            <h1 className="text-4xl text-[#54BAEC] font-bold">{job?.companyName}</h1>
+            <p className="pt-4 pb-2 font-semibold ">Description:</p>
+            <p className="text-gray-500 text-sm">{job?.description}</p>
+          </div>
           <form onSubmit={submitHandler} className="w-full">
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-            <div className="mb-4 w-full ">
-              <label htmlFor="email">Name</label> <br />
-              <input
-                type="text"
-                name="name"
-                id="name"
-                className="w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                required
-              />
-            </div>
-            <div className="mb-4 w-full ">
-              <label htmlFor="email">Email</label> <br />
-              <input
-                type="email"
-                name="email"
-                id="email"
-                className="w-full bg-[#191B1F] shadow-[0_0px_5px_rgba(25,27,31,0.6)] outline-none shadow-gray-50 border-0 rounded-lg py-2 px-4 mt-2"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                required
-              />
-            </div>
             <div className="mb-4 w-full">
               <label>Upload your resume</label> <br />
               <button

@@ -36,6 +36,16 @@ const jobSchema = new Schema(
       trim: true,
       minlength: [10, "Job description must be at least 10 characters"],
     },
+    requirements: {
+      type: [String], // Added to match JSON structure
+      required: true,
+      validate: {
+        validator: function (arr) {
+          return arr.length > 0;
+        },
+        message: "At least one requirement is needed",
+      },
+    },
     owner: {
       type: mongoose.Types.ObjectId,
       ref: "User",

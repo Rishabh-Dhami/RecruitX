@@ -16,3 +16,13 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #3681a3; /* Slightly darker shade on hover */
 }
+.ql-container {
+  background-color: white !important;
+  color: black !important;
+}
+
+.ql-editor {
+  background-color: white !important;
+  color: black !important;
+  min-height: 200px;
+}

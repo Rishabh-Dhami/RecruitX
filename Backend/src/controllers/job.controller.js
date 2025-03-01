@@ -38,6 +38,7 @@ const createJobs = asyncHandler(async (req, res, next) => {
     salary,
     description,
     companyName,
+    requirements, 
   } = req.body;
 
   if (!req.user) {
@@ -54,9 +55,12 @@ const createJobs = asyncHandler(async (req, res, next) => {
     !location ||
     !salary ||
     !description ||
-    !companyName
+    !companyName ||
+    !requirements || 
+    !Array.isArray(requirements) || 
+    requirements.length === 0 
   ) {
-    throw new ApiError(400, "All fields are required ");
+    throw new ApiError(400, "All fields, including at least one requirement, are required");
   }
 
   const createJob = new Job({
@@ -66,6 +70,7 @@ const createJobs = asyncHandler(async (req, res, next) => {
     salary,
     companyName,
     description,
+    requirements, 
     owner: req.user.id,
   });
 
@@ -79,6 +84,7 @@ const createJobs = asyncHandler(async (req, res, next) => {
     .status(201)
     .json(new ApiResponse(201, "Job created successfully!", jobs));
 });
+
 
 const delelteJob = asyncHandler(async (req, res, next) => {
   const { jobId } = req.params;
