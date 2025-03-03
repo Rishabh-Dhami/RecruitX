@@ -79,6 +79,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/job/:slug/show",
+        element: (
+          <AuthLayout authentication={true}>
+            <ApplyJob />
+          </AuthLayout>
+        ),
+      },
+      {
         path: "/settings",
         element: (
           <AuthLayout authentication={true}>

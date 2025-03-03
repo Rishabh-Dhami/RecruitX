@@ -8,8 +8,7 @@ import FeaturedJob from "./FeaturedJob";
 import Profile from "./Profile";
 import Security from "./Security";
 import RecruiterDashboard from "./RecruiterDashboard";
-import TiptapEditor from "./TiptapEditor";
-import Toolbar from "./Tollbar";
+
 
 export {
   Footer,
@@ -22,6 +21,4 @@ export {
   Profile,
   Security,
   RecruiterDashboard,
-  TiptapEditor,
-  Toolbar
 };

@@ -24,7 +24,7 @@ function FeaturedJob() {
   }, []);
 
   return (
-    <div className="w-full px-5 md:px-10 lg:px-20 min-h-[75vh] relative">
+    <div className="w-full px-5 md:px-10 lg:px-20 min-h-[70vh] mb-8 relative">
       <div className="w-full">
         <h1 className="text-4xl lg:text-5xl font-bold text-center lg:text-left">
           Featured Job
@@ -38,45 +38,25 @@ function FeaturedJob() {
         </p>
         <Link
           to={"/all-jobs"}
-          className="bg-[#4199c9] py-2 px-8 rounded-lg absolute bottom-[-7%] right-[42%]"
+          className="bg-[#4199c9] py-2 px-8 rounded-lg absolute bottom-[-10%] right-[42%]"
         >
           Find More Job
         </Link>
       </div>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-center mt-10">
-        {jobs.map((item, index) => (
-          <div
-            key={index}
-            className="w-full p-5 lg:p-8 bg-[#333333] hover:bg-[#408BB1] rounded-xl"
-          >
-            <div>
-              <p className="text-red-500 font-semibold text-xl md:text-2xl">
-                {item.companyName}
-              </p>
-              <p className="text-[12px] font-extralight text-gray-300">
-                {item.location}
-              </p>
-            </div>
-            <div className="my-4">
-              <h5 className="text-lg">{item.jobTitle}</h5>
-              <p className="text-xs text-gray-400">{item.employmentType}</p>
-            </div>
-            <p className="text-gray-300 text-sm">{item.description}</p>
-            <div className="mt-4 flex justify-between items-center">
-              <h4 className="text-lg md:text-xl font-semibold">
-                ${item.salary}/month
-              </h4>
-              {userData?.role === "candidate" ? (
-                <Link
-                  to={`/job/${item?._id}/apply`}
-                  className="bg-white text-black py-2 px-6 text-sm rounded-lg"
-                >
-                  Apply Now
-                </Link>
-              ) : null}
-            </div>
-          </div>
-        ))}
+        {jobs.map((data, index) => (
+                  <div
+                    key={index}
+                    className="w-full bg-gray-800 shadow-lg rounded-xl p-6 transition hover:bg-gray-700"
+                  >
+                    <div>
+                      <h3 className="text-2xl font-semibold text-white">{data.jobTitle}</h3>
+                      <span className="text-sm text-gray-400">{data.employmentType}</span>
+                      <p className="text-lg text-blue-400 mt-2">{data.companyName}</p>
+                      <p className="text-sm text-gray-300">{data.location}</p>
+                    </div>
+                  </div>
+                ))}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function AllJobs() {
@@ -11,6 +11,7 @@ function AllJobs() {
   const [alertMessage, setAlertMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const limit = 6;
+  const navigate = useNavigate();
 
   const userData = useSelector((state) => state.auth?.userData);
 
@@ -67,7 +68,7 @@ function AllJobs() {
   };
 
   return loading ? (
-    <div className="w-full h-[80vh] flex items-center justify-center">
+    <div className="w-full h-[80vh] flex  items-center justify-center">
       <h1 className="text-4xl font-bold">Loading...</h1>
     </div>
   ) : (
@@ -81,14 +82,15 @@ function AllJobs() {
       {error && <p className="text-red-500 text-center">{error}</p>}
 
       {/* Job Listings */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6 w-full">
         {jobs.map((data, index) => (
           <div
+          
             key={index}
-            className="w-full bg-gray-800 shadow-lg rounded-xl p-6 transition hover:bg-gray-700"
+            className="w-full bg-gray-800 shadow-lg rounded-xl p-6 relative transition hover:bg-gray-700 "
           >
             {/* Edit/Delete Actions */}
-            <div className="absolute top-4 right-4 flex gap-2">
+            <div className=" absolute top-5 right-4 flex gap-2 z-[9]">
               {userData?._id === data?.owner && (
                 <Link
                   to={`/edit-job/${data._id}`}
@@ -100,7 +102,7 @@ function AllJobs() {
               {(userData?._id === data?.owner || userData?.role === "admin") && (
                 <button
                   onClick={() => deleteJob(`${data._id}`)}
-                  className="bg-red-700 hover:bg-red-500 py-1 px-2 rounded-md"
+                  className="bg-red-700 hover:bg-red-500 py-1 z-999 px-2 rounded-md"
                 >
                   <i className="ri-delete-bin-fill"></i>
                 </button>
@@ -108,25 +110,15 @@ function AllJobs() {
             </div>
 
             {/* Job Details */}
-            <div>
+            <div onClick={userData?.role === "candidate" ?
+             () => navigate(`/job/${data?._id}/apply`) :
+             () => navigate(`/job/${data?._id}/show`)
+            } className="cursor-pointer">
               <h3 className="text-xl font-semibold text-white">{data.jobTitle}</h3>
               <span className="text-sm text-gray-400">{data.employmentType}</span>
               <p className="text-lg text-blue-400 mt-2">{data.companyName}</p>
               <p className="text-sm text-gray-300">{data.location}</p>
             </div>
-
-            
-            <p className="mt-3 text-gray-400 text-sm line-clamp-3">{data.description}</p>
-
-            <h4 className="mt-4 text-gray-200 font-medium">Requirements:</h4>
-            <ul className="list-disc pl-5 text-gray-300 text-sm">
-              {Array.isArray(data.requirements) ? (
-                data.requirements.map((item, index) => <li key={index}>{item}</li>)
-              ) : (
-                <li>No specific requirements listed.</li>
-              )}
-            </ul>
-
             <div className="mt-6 flex justify-between items-center">
               <span className="text-lg font-bold text-green-400">${data.salary}/month</span>
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Howitswork() {
   return (
-    <div className="w-full lg:min-h-screen mb-16 px-6 sm:px-12 lg:px-20 mt-12 relative lg:pt-20">
+    <div className="w-full lg:min-h-screen mb-4 px-6 sm:px-12 lg:px-20 mt-12 relative lg:pt-20">
       <div className="w-full relative text-center ">
         <h1 className="text-3xl lg:text-6xl font-semibold   lg:text-left">
           How Its Works

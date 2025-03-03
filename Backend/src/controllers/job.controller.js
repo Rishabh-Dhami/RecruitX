@@ -134,17 +134,25 @@ const updateJob = asyncHandler(async (req, res, next) => {
     salary,
     description,
     companyName,
+    requirements
   } = req.body;
+
+  if (req.user.role !== "recruiter") {
+    throw new ApiError(403, "Forbidden: Only recruiters can post jobs");
+  }
 
   if (
     !jobTitle ||
     !employmentType ||
     !location ||
     !salary ||
+    !companyName ||
     !description ||
-    !companyName
+    !requirements || 
+    !Array.isArray(requirements) || 
+    requirements.length === 0 
   ) {
-    throw new ApiError(400, "All fields are required!");
+    throw new ApiError(400, "All fields, including at least one requirement, are required");
   }
 
   const job = await Job.findById(jobId);
@@ -171,6 +179,7 @@ const updateJob = asyncHandler(async (req, res, next) => {
         salary,
         description,
         companyName,
+        requirements
       },
     },
     { new: true, runValidators: true },

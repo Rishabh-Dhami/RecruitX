@@ -19,7 +19,9 @@ function ApplyJob() {
 
   useEffect(() => {
     async function fetchJob(){
+      
       try {
+        setLoading(true);
         const response = await axiosInstance.get(`/jobs/${slug}`,{
           withCredentials : true
         })
@@ -30,6 +32,8 @@ function ApplyJob() {
       } catch (error) {
         console.error(error);
         setError(error.response?.data?.message || "failed to fecth job");
+      }finally{
+        setLoading(false);
       }
     }
 
@@ -74,7 +78,6 @@ function ApplyJob() {
     console.log("File Upload Response:", res);
     if (res.filesUploaded.length > 0) {
       const uploadedFile = res.filesUploaded[0];
-      console.log("Uploaded File URL:", uploadedFile.url);
       setResumeUrl(uploadedFile.url);
       setShowPicker(false);
     } else {
@@ -83,9 +86,9 @@ function ApplyJob() {
   };
 
   return (
-    <div className="w-full h-[95vh] flex items-center justify-center">
-      {success ? (
-        <div className="w-[50%] min-h-[50vh] rounded-md flex flex-col items-center justify-center gap-5 bg-[#030508dc] p-10">
+     <div className="w-full min-h-[95vh] flex items-center justify-center">
+      {success ?  (
+        <div className="lg-w-[50%] min-h-[50vh] rounded-md flex flex-col items-center justify-center gap-5 bg-[#030508dc] p-10">
           <h1 className=" font-semibold ">
             <i className="ri-checkbox-circle-line text-8xl"></i>
           </h1>
@@ -94,13 +97,28 @@ function ApplyJob() {
           </h1>
         </div>
       ) : (
-        <div className="w-[40%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex flex-col items-center justify-center py-9 px-6 ">
+       loading  ? 
+       <p className="text-4xl font-bold">Loading....</p> : 
+       <div className="w-[40%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex flex-col items-center justify-center py-9 px-6 ">
           <div className="w-full  mb-5">
             <h1 className="text-4xl text-[#54BAEC] font-bold">{job?.companyName}</h1>
+            <div className="mt-2">
+            <h3 className="text-lg text-gray-50 mt-2">{job?.jobTitle}</h3>
+              <span className="text-sm text-gray-400">{job?.employmentType}</span>
+              <p className="text-sm text-gray-300">{job?.location}</p>
+            </div>
             <p className="pt-4 pb-2 font-semibold ">Description:</p>
-            <p className="text-gray-500 text-sm">{job?.description}</p>
+            <i className="text-gray-400 text-sm w-full ">{job?.description}</i>
+            <h4 className="mt-4 text-gray-50 font-medium">Requirements:</h4>
+            <ul className="list-disc pl-5 text-gray-300 text-sm leading-[2.1rem]">
+              {Array.isArray(job.requirements) ? (
+                job.requirements.map((item, index) => <li key={index}>{item}</li>)
+              ) : (
+                <li>No specific requirements listed.</li>
+              )}
+            </ul>
           </div>
-          <form onSubmit={submitHandler} className="w-full">
+          {userData?.role === "candidate" ? <form onSubmit={submitHandler} className="w-full">
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             <div className="mb-4 w-full">
               <label>Upload your resume</label> <br />
@@ -121,7 +139,7 @@ function ApplyJob() {
             >
               {loading ? "Applying..." : "Apply"}
             </button>
-          </form>
+          </form> : null}
         </div>
       )}
       {showPicker && (
