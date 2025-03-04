@@ -223,4 +223,63 @@ const getJob = asyncHandler(async (req, res, next) => {
   );
 });
 
-export { getJobs, createJobs, delelteJob, updateJob, getJob };
+const getOwnerCreatedJobs = asyncHandler(async(req, res, next) => {
+  const {ownerId} = req.params;
+
+  if(!ownerId){
+    throw new ApiError(400, "Owner id is required!");
+  }
+
+  if(!mongoose.Types.ObjectId.isValid(ownerId)){
+    throw new ApiError(400, "Invalid Owner ID format!");
+  }
+
+  const ownersJobs = await Job.find({owner : ownerId}).lean();
+
+  if(!ownersJobs){
+    throw new ApiError(401, "Owner not found!");
+  }
+
+  console.log(ownersJobs)
+  res.status(200)
+  .json(new ApiResponse(
+    200,
+    "jobs fetched successfully!",
+    ownersJobs
+  ))
+})
+
+const getJobApplicants = asyncHandler(async(req, res, next) => {
+  const {jobId} = req.params;
+
+  if(!jobId){
+    throw new ApiError(400, "JobId is required to fetch applicants");
+  }
+
+  if(!mongoose.Types.ObjectId.isValid(jobId)){
+    throw new ApiError(400, "Invalid Job Id Format!");
+  }
+
+  const job = await Job.findOne({_id : jobId}).populate({path : "applicants.applicant"});
+
+  if(!job){
+    throw new ApiError(400, "Job not found!");
+  }
+
+  res.status(200)
+  .json(new ApiResponse(
+    200, 
+    "Applicants fetched successfully!",
+    job.applicants
+  ))
+})
+
+export { 
+  getJobs,
+  createJobs,
+  delelteJob, 
+  updateJob, 
+  getJob, 
+  getOwnerCreatedJobs, 
+  getJobApplicants,
+};
