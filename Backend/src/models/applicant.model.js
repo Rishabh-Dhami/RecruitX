@@ -13,6 +13,11 @@ const applicantSchema = new Schema(
       unique: true,
       trim: true,
     },
+    avatar : {
+      type : String,
+      trim : true,
+      required : true
+    },
     resume: {
       type: String,
       required: true,

@@ -5,12 +5,12 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const applyForJob = asyncHandler(async (req, res, next) => {
-  const { name, email, resume } = req.body; // ✅ Use resume URL from frontend
+  const { name, email, resume, avatar } = req.body; 
   const { jobId } = req.params;
 
   if (!jobId) throw new ApiError(400, "Job ID is required for applying.");
-  if (!name || !email) throw new ApiError(400, "Name and email are required.");
-  if (!resume) throw new ApiError(400, "Resume URL is required."); // ✅ Check for URL, not file
+  if (!name || !email || !avatar) throw new ApiError(400, "Name and email are required.");
+  if (!resume) throw new ApiError(400, "Resume URL is required."); 
 
   const job = await Job.findById(jobId);
   if (!job) throw new ApiError(404, "Job not found.");
@@ -18,7 +18,7 @@ const applyForJob = asyncHandler(async (req, res, next) => {
   let applicant = await Applicant.findOne({ email });
 
   if (!applicant) {
-    applicant = await Applicant.create({ name, email, resume });
+    applicant = await Applicant.create({ name, email, resume, avatar });
   } else {
     applicant.resume = resume;
     await applicant.save();

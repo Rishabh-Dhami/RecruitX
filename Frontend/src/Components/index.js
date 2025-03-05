@@ -7,7 +7,7 @@ import Howitswork from "./Howitswork";
 import FeaturedJob from "./FeaturedJob";
 import Profile from "./Profile";
 import Security from "./Security";
-import RecruiterDashboard from "./RecruiterDashboard";
+import DashboardAllJobs from "./DashboardAllJobs";
 
 
 export {
@@ -20,5 +20,5 @@ export {
   FeaturedJob,
   Profile,
   Security,
-  RecruiterDashboard,
+  DashboardAllJobs
 };

@@ -11,6 +11,7 @@ import {
   getJob,
   getOwnerCreatedJobs,
   getJobApplicants,
+  updateCandidateStatus,
 } from "../controllers/job.controller.js";
 
 const Router = express.Router();
@@ -29,6 +30,13 @@ Router.route("/:jobId/applicants")
 .get(verifyUser, authorizeRoles("recruiter"), getJobApplicants);  
 
 
-Router.route("/owner/:ownerId")
+Router.route("/recruiter/:ownerId")
 .get(verifyUser, authorizeRoles("recruiter"), getOwnerCreatedJobs);
+
+
+Router.route("/:jobId/applicants/:applicantId")
+.patch(verifyUser, authorizeRoles("recruiter"), updateCandidateStatus);
+
+
 export { Router as jobRouter };
+

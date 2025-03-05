@@ -54,6 +54,7 @@ function ApplyJob() {
     const data = {
       email : userData?.email,
       name : userData?.fullname,
+      avatar : userData?.avatar,
       resume: resumeUrl,
     };
 

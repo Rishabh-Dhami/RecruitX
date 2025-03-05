@@ -272,7 +272,37 @@ const getJobApplicants = asyncHandler(async(req, res, next) => {
     "Applicants fetched successfully!",
     job.applicants
   ))
-})
+});
+
+const updateCandidateStatus = asyncHandler(async(req, res, next) => {
+    const { jobId, applicantId} = req.params;
+    const { status } = req.body;
+
+
+    const validStatuses = ["active", "inactive", "shortlisted", "rejected"];
+    if (!validStatuses.includes(status)) {
+      throw new ApiError(400, "Invalid status value.");
+    }
+
+        const job = await Job.findById(jobId);
+        if (!job) {
+          throw new ApiError(404, "Job not found.");
+        }
+
+        const applicant = job.applicants.find(app => app._id.toString() === applicantId);
+        if (!applicant) {
+          throw new ApiError(404, "Candidate not found in this job.");
+        }
+        
+        applicant.status = status;
+        await job.save();
+
+        res.status(200).json(new ApiResponse(
+          200,
+          "Candidate status updated successfully.",
+          applicant
+        ));
+});
 
 export { 
   getJobs,
@@ -282,4 +312,5 @@ export {
   getJob, 
   getOwnerCreatedJobs, 
   getJobApplicants,
+  updateCandidateStatus
 };
