@@ -13,7 +13,6 @@ import {
   getJobApplicants,
   updateCandidateStatus,
   getApplicantAppliedJobs,
-  getAppliedJobDetails,
 } from "../controllers/job.controller.js";
 
 const Router = express.Router();
@@ -43,8 +42,8 @@ Router.route("/:jobId/applicants/:applicantId")
 Router.route("/candidate/:applicantEmail")
 .get(verifyUser, authorizeRoles("candidate") , getApplicantAppliedJobs)
 
-Router.route("/:jobId/candidate/:userEmail")
-.get(verifyUser, authorizeRoles("candidate"), getAppliedJobDetails);
+// Router.route("/:jobId/candidate/:userEmail")
+// .get(verifyUser, authorizeRoles("candidate"), getAppliedJobDetails);
 
 
 export { Router as jobRouter };

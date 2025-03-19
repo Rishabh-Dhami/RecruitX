@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axiosInstance from '../utils/axiosInstance';
 import CandidatesList from './CandidatesList';
+import CandidateApplicationsTable from './CandidateApplicationsTable';
 
 function DashboardAllJobs() {
     const [jobs, setJobs] = useState([]);
@@ -12,7 +13,7 @@ function DashboardAllJobs() {
 
     useEffect(() => {
         async function fetchJobs() {
-            if (!userData?.role || !userData?._id) return;
+            if (userData?.role !== "recruiter" || !userData?._id) return;
             setLoading(true);
             try {
                 const response = await axiosInstance.get(`/jobs/${userData.role}/${userData._id}`, {
@@ -34,8 +35,8 @@ function DashboardAllJobs() {
     }, [userData?.role, userData?._id]);
 
     return (
-        <div className="w-full">
-            {loading ? (
+        userData?.role == "recruiter" ? <div className="w-full">
+            {loading  ? (
                 <p className="text-center text-xl text-white">Loading...</p>
             ) : error ? (
                 <p className="text-center text-red-500">{error}</p>
@@ -55,8 +56,9 @@ function DashboardAllJobs() {
                 </div>
             )}
             {jobId &&  <CandidatesList jobId={jobId}/>}
-        </div>
-       
+        </div> 
+        : userData?.role === "candidate" ? 
+           <CandidateApplicationsTable/>: null
     );
 }
 

@@ -8,6 +8,7 @@ import FeaturedJob from "./FeaturedJob";
 import Profile from "./Profile";
 import Security from "./Security";
 import DashboardAllJobs from "./DashboardAllJobs";
+import CandidateApplicationsTable from "./CandidateApplicationsTable";
 
 
 export {
@@ -20,5 +21,6 @@ export {
   FeaturedJob,
   Profile,
   Security,
-  DashboardAllJobs
+  DashboardAllJobs,
+  CandidateApplicationsTable
 };
