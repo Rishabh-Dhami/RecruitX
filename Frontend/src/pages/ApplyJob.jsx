@@ -87,7 +87,7 @@ function ApplyJob() {
   };
 
   return (
-     <div className="w-full min-h-[95vh] flex items-center justify-center">
+     <div className="w-full min-h-[95vh] flex items-center justify-center py-4 px-6 sm:px-8 lg:px-20">
       {success ?  (
         <div className="lg-w-[50%] min-h-[50vh] rounded-md flex flex-col items-center justify-center gap-5 bg-[#030508dc] p-10">
           <h1 className=" font-semibold ">
@@ -100,7 +100,7 @@ function ApplyJob() {
       ) : (
        loading  ? 
        <p className="text-4xl font-bold">Loading....</p> : 
-       <div className="w-[40%]  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex flex-col items-center justify-center py-9 px-6 ">
+       <div className="max-w-2xl  sm:px-8 lg:px-20  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex flex-col items-center justify-center py-9 px-6 ">
           <div className="w-full  mb-5">
             <h1 className="text-4xl text-[#54BAEC] font-bold">{job?.companyName}</h1>
             <div className="mt-2">
@@ -109,15 +109,26 @@ function ApplyJob() {
               <p className="text-sm text-gray-300">{job?.location}</p>
             </div>
             <p className="pt-4 pb-2 font-semibold ">Description:</p>
-            <i className="text-gray-400 text-sm w-full ">{job?.description}</i>
-            <h4 className="mt-4 text-gray-50 font-medium">Requirements:</h4>
-            <ul className="list-disc pl-5 text-gray-300 text-sm leading-[2.1rem]">
-              {Array.isArray(job.requirements) ? (
-                job.requirements.map((item, index) => <li key={index}>{item}</li>)
-              ) : (
-                <li>No specific requirements listed.</li>
-              )}
-            </ul>
+            <div
+              className="text-gray-400 text-sm w-full"
+              dangerouslySetInnerHTML={{ __html: job?.description }}
+            ></div>
+            <h4 className="mt-4 text-gray-50 font-medium text-lg">Requirements:</h4>
+            <div className="bg-[#1E1F26] p-4 rounded-lg shadow-md border border-gray-700 mt-3">
+              <ul className="space-y-3">
+                {Array.isArray(job.requirements) ? (
+                  job.requirements.map((item, index) => (
+                  <li key={index} className="flex items-start gap-2 text-gray-300 text-sm">
+                    <span className="text-green-400 text-lg">✔</span>
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
+                  ))
+                ) : (
+                <li className="text-gray-400 text-sm">No specific requirements listed.</li>
+                 )}
+                 </ul>
+            </div>
+
           </div>
           {userData?.role === "candidate" ? <form onSubmit={submitHandler} className="w-full">
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
