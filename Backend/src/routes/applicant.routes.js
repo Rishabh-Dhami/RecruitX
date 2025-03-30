@@ -1,9 +1,9 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   authorizeRoles,
   verifyUser,
-} from "../middlewares/verifyUser.middleware.js";
-import { applyForJob } from "../controllers/applicant.controller.js";
+} = require("../middlewares/verifyUser.middleware.js");
+const { applyForJob } = require("../controllers/applicant.controller.js");
 
 const Router = express.Router();
 
@@ -13,4 +13,4 @@ Router.route("/:jobId/apply").post(
   applyForJob,
 );
 
-export { Router as applicantRouter };
+module.exports = Router;

@@ -1,6 +1,6 @@
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { v2 as cloudinary } from "cloudinary";
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
 
 const storage = new CloudinaryStorage({
   cloudinary,
@@ -31,4 +31,4 @@ const upload = multer({
 
 // Middleware for single file upload
 
-export { upload };
+module.exports = { upload };

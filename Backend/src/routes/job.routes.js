@@ -1,19 +1,23 @@
-import express from "express";
-import {
-  authorizeRoles,
-  verifyUser,
-} from "../middlewares/verifyUser.middleware.js";
-import {
+const express = require("express");
+const {
   delelteJob,
   updateJob,
   createJobs,
   getJobs,
   getJob,
-  getOwnerCreatedJobs,
   getJobApplicants,
+} = require("../controllers/job.controller.js");
+
+const {
+  authorizeRoles,
+  verifyUser,
+} = require("../middlewares/verifyUser.middleware.js");
+
+const {
+  getOwnerCreatedJobs,
   updateCandidateStatus,
   getApplicantAppliedJobs,
-} from "../controllers/job.controller.js";
+} = require("../controllers/job.controller.js");
 
 const Router = express.Router();
 
@@ -26,25 +30,31 @@ Router.route("/:jobId")
   .patch(verifyUser, authorizeRoles("recruiter"), updateJob)
   .get(verifyUser, getJob);
 
+Router.route("/:jobId/applicants").get(
+  verifyUser,
+  authorizeRoles("recruiter"),
+  getJobApplicants,
+);
 
-Router.route("/:jobId/applicants")
-.get(verifyUser, authorizeRoles("recruiter"), getJobApplicants);  
+Router.route("/recruiter/:ownerId").get(
+  verifyUser,
+  authorizeRoles("recruiter"),
+  getOwnerCreatedJobs,
+);
 
+Router.route("/:jobId/applicants/:applicantId").patch(
+  verifyUser,
+  authorizeRoles("recruiter"),
+  updateCandidateStatus,
+);
 
-Router.route("/recruiter/:ownerId")
-.get(verifyUser, authorizeRoles("recruiter"), getOwnerCreatedJobs);
-
-
-Router.route("/:jobId/applicants/:applicantId")
-.patch(verifyUser, authorizeRoles("recruiter"), updateCandidateStatus);
-
-
-Router.route("/candidate/:applicantEmail")
-.get(verifyUser, authorizeRoles("candidate") , getApplicantAppliedJobs)
+Router.route("/candidate/:applicantEmail").get(
+  verifyUser,
+  authorizeRoles("candidate"),
+  getApplicantAppliedJobs,
+);
 
 // Router.route("/:jobId/candidate/:userEmail")
 // .get(verifyUser, authorizeRoles("candidate"), getAppliedJobDetails);
 
-
-export { Router as jobRouter };
-
+module.exports = Router;

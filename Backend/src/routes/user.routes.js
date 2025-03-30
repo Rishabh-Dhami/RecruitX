@@ -1,14 +1,14 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   editUserProfile,
   getUserprofile,
   refreshAccessToken,
   userLogin,
   userLogout,
   userSignUp,
-} from "../controllers/user.controller.js";
-import { verifyUser } from "../middlewares/verifyUser.middleware.js";
-import { upload } from "../middlewares/multer.middleware.js";
+} = require("../controllers/user.controller.js");
+const { verifyUser } = require("../middlewares/verifyUser.middleware.js");
+const { upload } = require("../middlewares/multer.middleware.js");
 
 const Router = express.Router();
 
@@ -33,4 +33,4 @@ Router.route("/profile/:userId").patch(
 // route of user verifing
 Router.route("/refresh-accesstoken").get(verifyUser, refreshAccessToken);
 
-export { Router as userRouter };
+module.exports = Router;

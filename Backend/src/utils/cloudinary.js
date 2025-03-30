@@ -1,6 +1,6 @@
-import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
-import dotenv from "dotenv";
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
+const dotenv = require("dotenv");
 
 dotenv.config(); // Load environment variables
 
@@ -42,4 +42,4 @@ const deleteFromCloudinary = async (publicId) => {
   }
 };
 
-export { uploadToCloudinary, deleteFromCloudinary };
+module.exports = { uploadToCloudinary, deleteFromCloudinary };

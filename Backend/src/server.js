@@ -1,6 +1,6 @@
-import http from "http";
-import { app } from "./app.js";
-import { connectDB } from "./database/db.js";
+const http = require("http");
+const { app } = require("./app.js");
+const { connectDB } = require("./database/db.js");
 
 const server = http.createServer(app);
 
@@ -10,4 +10,4 @@ connectDB().then(() => {
   });
 });
 
-export { server };
+module.exports = { server };

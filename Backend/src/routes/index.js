@@ -1,5 +1,5 @@
-import { applicantRouter } from "./applicant.routes.js";
-import { jobRouter } from "./job.routes.js";
-import { userRouter } from "./user.routes.js";
+const userRouter = require("./user.routes.js");
+const jobRouter = require("./job.routes.js");
+const applicantRouter = require("./applicant.routes.js");
 
-export { userRouter, jobRouter, applicantRouter };
+module.exports = Router;

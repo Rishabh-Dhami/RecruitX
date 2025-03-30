@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import { ApiError } from "../utils/ApiError.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+const jwt = require("jsonwebtoken");
+const { ApiError } = require("../utils/ApiError.js");
+const { asyncHandler } = require("../utils/asyncHandler.js");
 
-export const verifyUser = asyncHandler(async (req, res, next) => {
+const verifyUser = asyncHandler(async (req, res, next) => {
   try {
     const token = req.cookies?.accessToken;
 
@@ -30,7 +30,7 @@ export const verifyUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const authorizeRoles = (...allowedRoles) => {
+const authorizeRoles = (...allowedRoles) => {
   return (req, res, next) => {
     if (!req.user || !allowedRoles.includes(req.user.role)) {
       throw new ApiError(403, "Forbidden: Access denied");
@@ -38,3 +38,5 @@ export const authorizeRoles = (...allowedRoles) => {
     next();
   };
 };
+
+module.exports = { verifyUser, authorizeRoles };

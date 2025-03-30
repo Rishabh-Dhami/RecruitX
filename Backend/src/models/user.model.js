@@ -1,6 +1,8 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import mongoose, { Schema } from "mongoose";
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const ApiError = require("../utils/ApiError");
 
 // Define the "role" attribute in the user schema to distinguish between candidates and recruiters.
 
@@ -86,4 +88,6 @@ userSchema.methods.comparePassword = async function (plainTextPassword) {
   }
 };
 
-export const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

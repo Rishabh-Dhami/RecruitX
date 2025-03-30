@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const applicantSchema = new Schema(
   {
@@ -13,10 +14,10 @@ const applicantSchema = new Schema(
       unique: true,
       trim: true,
     },
-    avatar : {
-      type : String,
-      trim : true,
-      required : true
+    avatar: {
+      type: String,
+      trim: true,
+      required: true,
     },
     resume: {
       type: String,
@@ -31,4 +32,6 @@ const applicantSchema = new Schema(
   { timestamps: true },
 );
 
-export const Applicant = mongoose.model("Applicant", applicantSchema);
+const Applicant = mongoose.model("Applicant", applicantSchema);
+
+module.exports = Applicant;

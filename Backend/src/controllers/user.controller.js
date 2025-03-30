@@ -1,9 +1,9 @@
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js";
-import { User } from "../models/user.model.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import jwt from "jsonwebtoken";
-import { uploadToCloudinary } from "../utils/cloudinary.js";
+const User = require("../models/user.model.js");
+const { ApiError } = require("../utils/ApiError.js");
+const { asyncHandler } = require("../utils/asyncHandler.js");
+const { ApiResponse } = require("../utils/ApiResponse.js");
+const jwt = require("jsonwebtoken");
+const { uploadToCloudinary } = require("../utils/cloudinary.js");
 
 const generateAccessTokenAndRefreshToken = async (user_id) => {
   if (!user_id) {
@@ -258,7 +258,7 @@ const refreshAccessToken = asyncHandler(async (req, res, next) => {
   }
 });
 
-export {
+module.exports = {
   userSignUp,
   userLogin,
   userLogout,

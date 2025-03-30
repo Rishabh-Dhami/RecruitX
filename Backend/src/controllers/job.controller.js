@@ -1,9 +1,9 @@
-import { Applicant } from "../models/applicant.model.js";
-import { Job } from "../models/job.model.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import mongoose from "mongoose";
+const Job = require("../models/job.model.js");
+const { ApiError } = require("../utils/ApiError.js");
+const { asyncHandler } = require("../utils/asyncHandler.js");
+const { ApiResponse } = require("../utils/ApiResponse.js");
+const mongoose = require("mongoose");
+const Applicant = require("../models/applicant.model.js");
 
 const getJobs = asyncHandler(async (req, res, next) => {
   const { page = 1, limit = 6, sort = "-createdAt", ...filters } = req.query;
@@ -39,7 +39,7 @@ const createJobs = asyncHandler(async (req, res, next) => {
     salary,
     description,
     companyName,
-    requirements, 
+    requirements,
   } = req.body;
 
   if (!req.user) {
@@ -57,11 +57,14 @@ const createJobs = asyncHandler(async (req, res, next) => {
     !salary ||
     !description ||
     !companyName ||
-    !requirements || 
-    !Array.isArray(requirements) || 
-    requirements.length === 0 
+    !requirements ||
+    !Array.isArray(requirements) ||
+    requirements.length === 0
   ) {
-    throw new ApiError(400, "All fields, including at least one requirement, are required");
+    throw new ApiError(
+      400,
+      "All fields, including at least one requirement, are required",
+    );
   }
 
   const createJob = new Job({
@@ -71,7 +74,7 @@ const createJobs = asyncHandler(async (req, res, next) => {
     salary,
     companyName,
     description,
-    requirements, 
+    requirements,
     owner: req.user.id,
   });
 
@@ -85,7 +88,6 @@ const createJobs = asyncHandler(async (req, res, next) => {
     .status(201)
     .json(new ApiResponse(201, "Job created successfully!", jobs));
 });
-
 
 const delelteJob = asyncHandler(async (req, res, next) => {
   const { jobId } = req.params;
@@ -135,7 +137,7 @@ const updateJob = asyncHandler(async (req, res, next) => {
     salary,
     description,
     companyName,
-    requirements
+    requirements,
   } = req.body;
 
   if (req.user.role !== "recruiter") {
@@ -149,11 +151,14 @@ const updateJob = asyncHandler(async (req, res, next) => {
     !salary ||
     !companyName ||
     !description ||
-    !requirements || 
-    !Array.isArray(requirements) || 
-    requirements.length === 0 
+    !requirements ||
+    !Array.isArray(requirements) ||
+    requirements.length === 0
   ) {
-    throw new ApiError(400, "All fields, including at least one requirement, are required");
+    throw new ApiError(
+      400,
+      "All fields, including at least one requirement, are required",
+    );
   }
 
   const job = await Job.findById(jobId);
@@ -180,7 +185,7 @@ const updateJob = asyncHandler(async (req, res, next) => {
         salary,
         description,
         companyName,
-        requirements
+        requirements,
       },
     },
     { new: true, runValidators: true },
@@ -210,11 +215,11 @@ const getJob = asyncHandler(async (req, res, next) => {
     .populate("owner", "name email")
     .populate("applicants.applicant", "name email role");
 
-  const totalJobs = job.applicants.length;
-
   if (!job) {
     throw new ApiError(404, "Job not found!");
   }
+
+  const totalJobs = job.applicants.length;
 
   return res.status(200).json(
     new ApiResponse(200, "Job fetched successfully!", {
@@ -224,104 +229,105 @@ const getJob = asyncHandler(async (req, res, next) => {
   );
 });
 
-const getOwnerCreatedJobs = asyncHandler(async(req, res, next) => {
-  const {ownerId} = req.params;
+const getOwnerCreatedJobs = asyncHandler(async (req, res, next) => {
+  const { ownerId } = req.params;
 
-  if(!ownerId){
+  if (!ownerId) {
     throw new ApiError(400, "Owner id is required!");
   }
 
-  if(!mongoose.Types.ObjectId.isValid(ownerId)){
+  if (!mongoose.Types.ObjectId.isValid(ownerId)) {
     throw new ApiError(400, "Invalid Owner ID format!");
   }
 
-  const ownersJobs = await Job.find({owner : ownerId}).lean();
+  const ownersJobs = await Job.find({ owner: ownerId }).lean();
 
-  if(!ownersJobs){
+  if (!ownersJobs) {
     throw new ApiError(401, "Owner not found!");
   }
 
-  console.log(ownersJobs)
-  res.status(200)
-  .json(new ApiResponse(
-    200,
-    "jobs fetched successfully!",
-    ownersJobs
-  ))
-})
+  console.log(ownersJobs);
+  res
+    .status(200)
+    .json(new ApiResponse(200, "jobs fetched successfully!", ownersJobs));
+});
 
-const getJobApplicants = asyncHandler(async(req, res, next) => {
-  const {jobId} = req.params;
+const getJobApplicants = asyncHandler(async (req, res, next) => {
+  const { jobId } = req.params;
 
-  if(!jobId){
+  if (!jobId) {
     throw new ApiError(400, "JobId is required to fetch applicants");
   }
 
-  if(!mongoose.Types.ObjectId.isValid(jobId)){
+  if (!mongoose.Types.ObjectId.isValid(jobId)) {
     throw new ApiError(400, "Invalid Job Id Format!");
   }
 
-  const job = await Job.findOne({_id : jobId}).populate({path : "applicants.applicant"});
+  const job = await Job.findOne({ _id: jobId }).populate({
+    path: "applicants.applicant",
+  });
 
-  if(!job){
+  if (!job) {
     throw new ApiError(400, "Job not found!");
   }
 
-  res.status(200)
-  .json(new ApiResponse(
-    200, 
-    "Applicants fetched successfully!",
-    job.applicants
-  ))
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, "Applicants fetched successfully!", job.applicants),
+    );
 });
 
-const updateCandidateStatus = asyncHandler(async(req, res, next) => {
-    const { jobId, applicantId} = req.params;
-    const { status } = req.body;
+const updateCandidateStatus = asyncHandler(async (req, res, next) => {
+  const { jobId, applicantId } = req.params;
+  const { status } = req.body;
 
-
-    const validStatuses = ["active", "inactive", "shortlisted", "rejected"];
-    if (!validStatuses.includes(status)) {
-      throw new ApiError(400, "Invalid status value.");
-    }
-
-        const job = await Job.findById(jobId);
-        if (!job) {
-          throw new ApiError(404, "Job not found.");
-        }
-
-        const applicant = job.applicants.find(app => app._id.toString() === applicantId);
-        if (!applicant) {
-          throw new ApiError(404, "Candidate not found in this job.");
-        }
-        
-        applicant.status = status;
-        await job.save();
-
-        res.status(200).json(new ApiResponse(
-          200,
-          "Candidate status updated successfully.",
-          applicant
-        ));
-});
-
-const getApplicantAppliedJobs = asyncHandler(async(req, res, next) => {
-  const {applicantEmail} = req.params;
-
-  if(!applicantEmail){
-    throw new ApiError(400, "Email is required to fetched jobs!")
+  const validStatuses = ["active", "inactive", "shortlisted", "rejected"];
+  if (!validStatuses.includes(status)) {
+    throw new ApiError(400, "Invalid status value.");
   }
 
-  const applicant = await Applicant.findOne({ email : applicantEmail}).select("_id").lean();
+  const job = await Job.findById(jobId);
+  if (!job) {
+    throw new ApiError(404, "Job not found.");
+  }
 
-   if(!applicant){
-    throw new ApiError(404, "Applicant is not found!")
-   }
+  const applicant = job.applicants.find(
+    (app) => app._id.toString() === applicantId,
+  );
+  if (!applicant) {
+    throw new ApiError(404, "Candidate not found in this job.");
+  }
 
-   const jobs = await Job.aggregate([
-    { $match: { "applicants.applicant": applicant._id } }, 
-    { $unwind: "$applicants" }, 
-    { $match: { "applicants.applicant": applicant._id } }, 
+  applicant.status = status;
+  await job.save();
+
+  res
+    .status(200)
+    .json(
+      new ApiResponse(200, "Candidate status updated successfully.", applicant),
+    );
+});
+
+const getApplicantAppliedJobs = asyncHandler(async (req, res, next) => {
+  const { applicantEmail } = req.params;
+
+  if (!applicantEmail) {
+    throw new ApiError(400, "Email is required to fetched jobs!");
+  }
+
+  const applicant = await Applicant.findOne({ email: applicantEmail })
+    .select("_id")
+    .lean();
+
+  if (!applicant) {
+    throw new ApiError(404, "Applicant is not found!");
+  }
+
+  const jobs = await Job.aggregate([
+    { $match: { "applicants.applicant": applicant._id } },
+    { $unwind: "$applicants" },
+    { $match: { "applicants.applicant": applicant._id } },
     {
       $project: {
         _id: 1,
@@ -329,22 +335,26 @@ const getApplicantAppliedJobs = asyncHandler(async(req, res, next) => {
         employmentType: 1,
         location: 1,
         salary: 1,
-        "applicantStatus": "$applicants.status", 
-        "appliedAt": "$applicants.appliedAt", 
+        applicantStatus: "$applicants.status",
+        appliedAt: "$applicants.appliedAt",
       },
     },
-    { $sort: { appliedAt: -1 } }
+    { $sort: { appliedAt: -1 } },
   ]);
 
-    if(!jobs){
-      throw new ApiError(404, "Jobs are not found!");
-    }
+  if (!jobs) {
+    throw new ApiError(404, "Jobs are not found!");
+  }
 
-   res.status(200).json(new ApiResponse(
-    200,
-    "Applicant applied jobs fetched successfully!",
-    jobs
-   ))
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        "Applicant applied jobs fetched successfully!",
+        jobs,
+      ),
+    );
 });
 
 // const getAppliedJobDetails = asyncHandler(async(req, res, next) => {
@@ -368,7 +378,6 @@ const getApplicantAppliedJobs = asyncHandler(async(req, res, next) => {
 //     throw new ApiError(400, "User Email is required to fetch details");
 //   }
 
-
 //   const applicant = await Applicant.findOne({email : userEmail});
 
 //   if(!applicant){
@@ -376,11 +385,11 @@ const getApplicantAppliedJobs = asyncHandler(async(req, res, next) => {
 //   }
 
 //   const jobDetails = await Job.aggregate([
-//     { $match: { _id: new mongoose.Types.ObjectId(jobId) } }, 
-//     { $unwind: "$applicants" }, 
+//     { $match: { _id: new mongoose.Types.ObjectId(jobId) } },
+//     { $unwind: "$applicants" },
 //     { $match: { "applicants.applicant": applicant._id } },
-//     { 
-//       $project: { 
+//     {
+//       $project: {
 //         _id: 1,
 //         jobTitle: 1,
 //         companyName: 1,
@@ -389,8 +398,8 @@ const getApplicantAppliedJobs = asyncHandler(async(req, res, next) => {
 //         salary: 1,
 //         description: 1,
 //         requirements: 1,
-//         "applicantStatus": "$applicants.status" 
-//       }  
+//         "applicantStatus": "$applicants.status"
+//       }
 //     }
 //   ]);
 
@@ -399,19 +408,19 @@ const getApplicantAppliedJobs = asyncHandler(async(req, res, next) => {
 //   }
 
 //   res.status(200).json(new ApiResponse(
-//     200, 
+//     200,
 //     "Applied Job details fetched successfully!",
 //     jobDetails[0]
 //   ))
 // })
 
-export { 
+module.exports = {
   getJobs,
   createJobs,
-  delelteJob, 
-  updateJob, 
-  getJob, 
-  getOwnerCreatedJobs, 
+  delelteJob,
+  updateJob,
+  getJob,
+  getOwnerCreatedJobs,
   getJobApplicants,
   updateCandidateStatus,
   getApplicantAppliedJobs,

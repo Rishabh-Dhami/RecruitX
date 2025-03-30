@@ -1,8 +1,11 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import { applicantRouter, jobRouter, userRouter } from "./routes/index.js";
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const userRouter = require("./routes/user.routes.js");
+const jobRouter = require("./routes/job.routes.js");
+const applicantRouter = require("./routes/applicant.routes.js");
+
 dotenv.config();
 
 const app = express();
@@ -32,4 +35,4 @@ app.use((err, req, res, next) => {
     .json({ success: false, message: err.message || "Internal Server Error" });
 });
 
-export { app };
+module.exports = { app };
