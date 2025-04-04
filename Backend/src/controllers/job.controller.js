@@ -246,7 +246,6 @@ const getOwnerCreatedJobs = asyncHandler(async (req, res, next) => {
     throw new ApiError(401, "Owner not found!");
   }
 
-  console.log(ownersJobs);
   res
     .status(200)
     .json(new ApiResponse(200, "jobs fetched successfully!", ownersJobs));
@@ -357,62 +356,7 @@ const getApplicantAppliedJobs = asyncHandler(async (req, res, next) => {
     );
 });
 
-// const getAppliedJobDetails = asyncHandler(async(req, res, next) => {
-//   const {jobId, userEmail} = req.params;
 
-//   if(!jobId){
-//     throw new ApiError(400, "JobId id is required to fetch details!");
-//   }
-
-//   if(!mongoose.Types.ObjectId.isValid(jobId)){
-//     throw new ApiError(400, "Invalid Job ID format!");
-//   }
-
-//   const job = await Job.findOne({_id : jobId});
-
-//   if(!job){
-//     throw new ApiError(404, "Job not found!");
-//   }
-
-//   if(!userEmail){
-//     throw new ApiError(400, "User Email is required to fetch details");
-//   }
-
-//   const applicant = await Applicant.findOne({email : userEmail});
-
-//   if(!applicant){
-//     throw new ApiError(404, "Applicant not found!");
-//   }
-
-//   const jobDetails = await Job.aggregate([
-//     { $match: { _id: new mongoose.Types.ObjectId(jobId) } },
-//     { $unwind: "$applicants" },
-//     { $match: { "applicants.applicant": applicant._id } },
-//     {
-//       $project: {
-//         _id: 1,
-//         jobTitle: 1,
-//         companyName: 1,
-//         employmentType: 1,
-//         location: 1,
-//         salary: 1,
-//         description: 1,
-//         requirements: 1,
-//         "applicantStatus": "$applicants.status"
-//       }
-//     }
-//   ]);
-
-//   if (jobDetails.length === 0) {
-//     throw new ApiError(404, "No application found for this user on the specified job!");
-//   }
-
-//   res.status(200).json(new ApiResponse(
-//     200,
-//     "Applied Job details fetched successfully!",
-//     jobDetails[0]
-//   ))
-// })
 
 module.exports = {
   getJobs,

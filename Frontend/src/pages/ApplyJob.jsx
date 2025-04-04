@@ -100,7 +100,7 @@ function ApplyJob() {
       ) : (
        loading  ? 
        <p className="text-4xl font-bold">Loading....</p> : 
-       <div className="max-w-2xl  sm:px-8 lg:px-20  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex flex-col items-center justify-center py-9 px-6 ">
+       <div className="max-w-2xl min-w-[672px]  sm:px-8 lg:px-20  bg-[#030508] shadow-[0_0px_5px_rgba(25,27,31,0.6)] rounded-lg shadow-gray-50 flex flex-col items-center justify-center py-9 px-6 ">
           <div className="w-full  mb-5">
             <h1 className="text-4xl text-[#54BAEC] font-bold">{job?.companyName}</h1>
             <div className="mt-2">

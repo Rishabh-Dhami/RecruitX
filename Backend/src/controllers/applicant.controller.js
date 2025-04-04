@@ -26,16 +26,11 @@ const applyForJob = asyncHandler(async (req, res, next) => {
 
   try {
     extractedText = await extractTextFromPDF(resume);
-    console.log("✅ Resume text extracted.", extractedText.length);
   } catch (error) {
     throw new ApiError(500, "Failed to extract text from resume.");
   }
 
-  console.log("extractedText", extractedText.length);
-
-  console.log("⚖️ Evaluating resume against job description...");
-  const score = await evaluateResumeWithGroq(extractedText, job.description);
-  console.log("✅ Resume score:", score);
+  const score = await evaluateResumeWithGroq(extractedText, job.description, job.requirements);
   if (score < 80) {
     throw new ApiError(
       400,

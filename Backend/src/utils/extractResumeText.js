@@ -20,7 +20,6 @@ const downloadFile = async (fileUrl) => {
 
     return response.data; // Return file buffer
   } catch (error) {
-    console.error("❌ Error downloading file:", error.message);
     throw new Error("Failed to download the resume.");
   }
 };
@@ -38,7 +37,6 @@ async function extractTextFromPDF(url) {
     const data = await pdfParse(buffer);// This contains the entire resume as plain text
     return data.text;
   } catch (error) {
-    console.error("Error extracting PDF:", error.message);
     return null;
   }
 }
@@ -55,7 +53,6 @@ const extractTextFromDocx = async (fileBuffer) => {
 
     return result.value;
   } catch (error) {
-    console.error("❌ Error parsing DOCX:", error.message);
     throw new Error("Failed to extract text from DOCX.");
   }
 };
