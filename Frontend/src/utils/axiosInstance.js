@@ -2,13 +2,11 @@ import axios from "axios";
 import { store } from "../store/store";
 import { login, logout } from "../store/authSlice";
 
-// Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL, // API base URL
-  withCredentials: true, // Send cookies with requests
+  baseURL: import.meta.env.VITE_BASE_URL,
+  withCredentials: true,
 });
 
-// Flag to avoid multiple token refresh requests at once
 let isRefreshing = false;
 let refreshSubscribers = [];
 
@@ -18,7 +16,7 @@ const onTokenRefreshed = (newAccessToken) => {
 };
 
 axiosInstance.interceptors.response.use(
-  (response) => response, // Pass successful responses
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
