@@ -49,7 +49,7 @@ function ProfileEdit() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        },
+        }
       );
 
       if (response.status === 200) {
@@ -57,7 +57,7 @@ function ProfileEdit() {
           login({
             userData: response.data.info.user,
             accessToken: response.data.info.accessToken,
-          }),
+          })
         );
         navigate("/settings");
       }
@@ -126,7 +126,9 @@ function ProfileEdit() {
           <button
             type="submit"
             disabled={loading}
-            className={`bg-[#1D4ED8] text-white rounded-lg w-full py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`bg-[#1D4ED8] text-white rounded-lg w-full py-2 px-4 mt-4 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
             {loading ? "Editing profile..." : "Edit Profile"}
           </button>

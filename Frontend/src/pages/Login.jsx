@@ -40,7 +40,7 @@ function Login() {
           login({
             userData: response.data.info.user,
             accessToken: response.data.info.accessToken,
-          }),
+          })
         );
         setEmail("");
         setPassword("");
@@ -98,7 +98,9 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className={`bg-[#1D4ED8] text-white rounded-lg w-full py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`bg-[#1D4ED8] text-white rounded-lg w-full py-2 px-4 mt-4 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>

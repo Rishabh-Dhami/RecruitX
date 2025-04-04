@@ -115,10 +115,10 @@ RecruitX/
 
 ## Screenshots
 
-![Admin Dashboard Screenshot](https://github.com/nikhilmalakar/Job-Portal---VRV-Recruiters/blob/main/screenshots/01Home.png)
-![User Management Screenshot](https://github.com/nikhilmalakar/Job-Portal---VRV-Recruiters/blob/main/screenshots/post-a-job.png)
-![Role Management Screenshot](https://github.com/nikhilmalakar/Job-Portal---VRV-Recruiters/blob/main/screenshots/job-description.png)
-![Role Management Screenshot](https://github.com/nikhilmalakar/Job-Portal---VRV-Recruiters/blob/main/screenshots/all-jobs-candidate.png)
+![Home Screenshot](https://github.com/Rishabh-Dhami/RecruitX/blob/main/screenshorts/Home.png)
+![Job Post Screenshot](https://github.com/Rishabh-Dhami/RecruitX/blob/main/screenshorts/01-post-a-job.png)
+![Rcruiter Dashboard Screenshot](https://github.com/Rishabh-Dhami/RecruitX/blob/main/screenshorts/dashboard-recruiter.png)
+![All Jobs Screenshot](https://github.com/Rishabh-Dhami/RecruitX/blob/main/screenshorts/all-job-candidate.png)
 
 ## Installation & Setup
 

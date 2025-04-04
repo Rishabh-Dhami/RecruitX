@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
 ::-webkit-scrollbar {
   width: 7px;
-  background: #0d131f; 
+  background: #0d131f;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -18,7 +17,7 @@
 }
 
 ::-webkit-scrollbar:horizontal {
-  height: 8px; 
+  height: 8px;
 }
 
 .ql-container {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Star, FileText } from "lucide-react";
 import axiosInstance from "../utils/axiosInstance";
 
-function CandidatesList({jobId}) {
+function CandidatesList({ jobId }) {
   const [candidates, setCandidates] = useState([]);
   const [filter, setFilter] = useState("all");
 
@@ -20,18 +20,24 @@ function CandidatesList({jobId}) {
   };
 
   const updateStatus = async (applicantId, newStatus) => {
-    console.log(applicantId, jobId, newStatus)
     try {
-      const response = await axiosInstance.patch(`/jobs/${jobId}/applicants/${applicantId}`, { status: newStatus }, {
-        headers : {
-          "Content-Type" : "application/json"
+      const response = await axiosInstance.patch(
+        `/jobs/${jobId}/applicants/${applicantId}`,
+        { status: newStatus },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
 
-      if(response.status ===  200){ 
+      if (response.status === 200) {
         setCandidates((prev) =>
-        prev.map((c) => (c._id === applicantId ? { ...c, status: newStatus } : c))
-      )};
+          prev.map((c) =>
+            c._id === applicantId ? { ...c, status: newStatus } : c
+          )
+        );
+      }
     } catch (error) {
       console.error("Error updating status", error);
     }
@@ -40,8 +46,6 @@ function CandidatesList({jobId}) {
   const filteredCandidates = candidates.filter((c) =>
     filter === "all" ? true : c.status === filter
   );
-
-  
 
   return (
     <div className="min-h-auto bg-gray-900 text-white p-6 mt-6">
@@ -73,7 +77,10 @@ function CandidatesList({jobId}) {
           </thead>
           <tbody>
             {filteredCandidates.map(({ applicant, status, _id, appliedAt }) => (
-              <tr key={_id} className="border-b border-gray-800 hover:bg-gray-800/50">
+              <tr
+                key={_id}
+                className="border-b border-gray-800 hover:bg-gray-800/50"
+              >
                 <td className="px-4 py-4 flex items-center">
                   <img
                     src={applicant?.avatar}
@@ -90,20 +97,27 @@ function CandidatesList({jobId}) {
                     rel="noopener noreferrer"
                     className="text-blue-400"
                   >
-                    <FileText className="inline-block w-5 h-5 mr-1" /> View Resume
+                    <FileText className="inline-block w-5 h-5 mr-1" /> View
+                    Resume
                   </a>
                 </td>
-                <td className="px-4 py-4">{new Date(appliedAt).toLocaleDateString()}</td>
+                <td className="px-4 py-4">
+                  {new Date(appliedAt).toLocaleDateString()}
+                </td>
                 <td className="px-4 py-4 capitalize">{status}</td>
                 <td className="px-4 py-4 space-x-2">
                   <button
-                    onClick={() => {updateStatus(_id, "shortlisted")}}
+                    onClick={() => {
+                      updateStatus(_id, "shortlisted");
+                    }}
                     className="px-3 py-1 bg-green-500 rounded text-white"
                   >
                     Shortlist
                   </button>
                   <button
-                    onClick={() => {updateStatus(_id, "rejected")}}
+                    onClick={() => {
+                      updateStatus(_id, "rejected");
+                    }}
                     className="px-3 py-1 bg-red-500 rounded text-white"
                   >
                     Reject

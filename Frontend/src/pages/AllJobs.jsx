@@ -85,7 +85,6 @@ function AllJobs() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6 w-full">
         {jobs.map((data, index) => (
           <div
-          
             key={index}
             className="w-full bg-gray-800 shadow-lg rounded-xl p-6 relative transition hover:bg-gray-700 "
           >
@@ -110,17 +109,27 @@ function AllJobs() {
             </div>
 
             {/* Job Details */}
-            <div onClick={userData?.role === "candidate" ?
-             () => navigate(`/job/${data?._id}/apply`) :
-             () => navigate(`/job/${data?._id}/show`)
-            } className="cursor-pointer">
-              <h3 className="text-xl font-semibold text-white">{data.jobTitle}</h3>
-              <span className="text-sm text-gray-400">{data.employmentType}</span>
+            <div
+              onClick={
+                userData?.role === "candidate"
+                  ? () => navigate(`/job/${data?._id}/apply`)
+                  : () => navigate(`/job/${data?._id}/show`)
+              }
+              className="cursor-pointer"
+            >
+              <h3 className="text-xl font-semibold text-white">
+                {data.jobTitle}
+              </h3>
+              <span className="text-sm text-gray-400">
+                {data.employmentType}
+              </span>
               <p className="text-lg text-blue-400 mt-2">{data.companyName}</p>
               <p className="text-sm text-gray-300">{data.location}</p>
             </div>
             <div className="mt-6 flex justify-between items-center">
-              <span className="text-lg font-bold text-green-400">${data.salary}/month</span>
+              <span className="text-lg font-bold text-green-400">
+                ${data.salary}/month
+              </span>
 
               {userData?.role === "candidate" && (
                 <Link to={`/job/${data?._id}/apply`}>
@@ -134,7 +143,6 @@ function AllJobs() {
         ))}
       </div>
 
-  
       <div className="flex justify-center items-center gap-4 mt-6">
         <button
           onClick={handlePrevPage}

@@ -15,7 +15,6 @@ function FeaturedJob() {
         const response = await axiosInstance.get(`/jobs/`);
         setJobs(response.data.info.jobs);
       } catch (error) {
-        console.error(error);
         setError("Failed to fetch jobs. Please try again.");
       }
     };
@@ -45,18 +44,22 @@ function FeaturedJob() {
       </div>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-center mt-10">
         {jobs.map((data, index) => (
-                  <div
-                    key={index}
-                    className="w-full bg-gray-800 shadow-lg rounded-xl p-6 transition hover:bg-gray-700"
-                  >
-                    <div>
-                      <h3 className="text-2xl font-semibold text-white">{data.jobTitle}</h3>
-                      <span className="text-sm text-gray-400">{data.employmentType}</span>
-                      <p className="text-lg text-blue-400 mt-2">{data.companyName}</p>
-                      <p className="text-sm text-gray-300">{data.location}</p>
-                    </div>
-                  </div>
-                ))}
+          <div
+            key={index}
+            className="w-full bg-gray-800 shadow-lg rounded-xl p-6 transition hover:bg-gray-700"
+          >
+            <div>
+              <h3 className="text-2xl font-semibold text-white">
+                {data.jobTitle}
+              </h3>
+              <span className="text-sm text-gray-400">
+                {data.employmentType}
+              </span>
+              <p className="text-lg text-blue-400 mt-2">{data.companyName}</p>
+              <p className="text-sm text-gray-300">{data.location}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

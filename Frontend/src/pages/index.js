@@ -19,5 +19,5 @@ export {
   ApplyJob,
   Settings,
   ProfileEdit,
-  Dashboard
+  Dashboard,
 };

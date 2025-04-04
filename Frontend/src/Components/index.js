@@ -10,7 +10,6 @@ import Security from "./Security";
 import DashboardAllJobs from "./DashboardAllJobs";
 import CandidateApplicationsTable from "./CandidateApplicationsTable";
 
-
 export {
   Footer,
   Header,
@@ -22,5 +21,5 @@ export {
   Profile,
   Security,
   DashboardAllJobs,
-  CandidateApplicationsTable
+  CandidateApplicationsTable,
 };

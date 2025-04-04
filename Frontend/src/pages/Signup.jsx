@@ -61,7 +61,7 @@ function Signup() {
           login({
             userData: response.data.info.user,
             accessToken: response.data.info.user,
-          }),
+          })
         );
         setEmail("");
         setPassword("");
@@ -188,7 +188,9 @@ function Signup() {
           <button
             type="submit"
             disabled={loading}
-            className={`bg-[#1D4ED8] text-white w-full rounded-lg py-2 px-4 mt-4 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`bg-[#1D4ED8] text-white w-full rounded-lg py-2 px-4 mt-4 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>

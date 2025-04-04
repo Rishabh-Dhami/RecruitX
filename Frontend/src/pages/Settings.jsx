@@ -12,13 +12,13 @@ function Settings() {
       gsap.fromTo(
         profileRef.current,
         { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" },
+        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
       );
     } else {
       gsap.fromTo(
         securityRef.current,
         { opacity: 0, x: 50 },
-        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" },
+        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
       );
     }
   }, [activeTab]);
