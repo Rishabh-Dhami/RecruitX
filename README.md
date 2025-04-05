@@ -2,53 +2,6 @@
 
 A modern recruitment platform similar to LinkedIn, powered by AI-driven resume screening. The platform connects recruiters with candidates while providing intelligent application screening using LangChain and GROQ API for ATS (Applicant Tracking System) scoring.
 
-## Project Structure
-
-```
-RecruitX/
-├── Frontend/                     # Frontend React application
-│   ├── src/
-│   │   ├── Components/          # Reusable UI components
-│   │   ├── pages/              # Page components
-│   │   ├── utils/             # Utility functions and services
-│   │   │   └── axiosInstance.js  # Axios configuration
-│   │   ├── store/             # Redux store setup
-│   │   ├── App.jsx           # Main application component
-│   │   └── main.jsx         # Application entry point
-│   ├── .env                 # Frontend environment variables
-│   ├── package.json        # Frontend dependencies
-│   └── index.html         # Entry HTML file
-├── Backend/                     # Backend Node.js/Express application
-│   ├── src/
-│   │   ├── controllers/        # Route controllers
-│   │   │   ├── user.controller.js
-│   │   │   ├── job.controller.js
-│   │   │   └── applicant.controller.js
-│   │   ├── middlewares/       # Custom middlewares
-│   │   │   ├── multer.middleware.js
-│   │   │   └── verifyUser.middleware.js
-│   │   ├── models/           # Database models
-│   │   │   ├── user.model.js
-│   │   │   ├── job.model.js
-│   │   │   └── applicant.model.js
-│   │   ├── routes/          # API routes
-│   │   │   ├── user.routes.js
-│   │   │   ├── job.routes.js
-│   │   │   └── applicant.routes.js
-│   │   ├── utils/          # Utility functions
-│   │   │   ├── ApiError.js
-│   │   │   ├── ApiResponse.js
-│   │   │   ├── asyncHandler.js
-│   │   │   ├── cloudinary.js
-│   │   │   ├── extractResumeText.js
-│   │   │   └── resumeScorer.js
-│   │   ├── app.js         # Express app configuration
-│   │   └── server.js     # Server entry point
-│   ├── .env             # Backend environment variables
-│   ├── .gitignore      # Git ignore rules
-│   └── package.json    # Backend dependencies
-```
-
 ## Features
 
 - **Multi-Role System:**
