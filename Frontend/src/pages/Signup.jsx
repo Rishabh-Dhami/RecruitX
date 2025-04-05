@@ -171,7 +171,6 @@ function Signup() {
               <option value="">--Select Role--</option>
               <option value="recruiter">Recruiter</option>
               <option value="candidate">Candidate</option>
-              <option value="admin">Admin</option>
             </select>
           </div>
           <div className="mb-4 w-full">
