@@ -36,6 +36,7 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logout());
+    localStorage.removeItem("accessToken");
   };
 
   return (
