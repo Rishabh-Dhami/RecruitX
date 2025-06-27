@@ -15,6 +15,17 @@ const onTokenRefreshed = (newAccessToken) => {
   refreshSubscribers = [];
 };
 
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -48,6 +59,7 @@ axiosInstance.interceptors.response.use(
             accessToken: newAccessToken,
           }),
         );
+        localStorage.setItem("accessToken", newAccessToken);
 
         axiosInstance.defaults.headers["Authorization"] =
           `Bearer ${newAccessToken}`;
@@ -56,6 +68,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         store.dispatch(logout());
+        localStorage.removeItem("accessToken");
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

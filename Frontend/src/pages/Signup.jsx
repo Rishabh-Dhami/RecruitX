@@ -60,9 +60,10 @@ function Signup() {
         dispatch(
           login({
             userData: response.data.info.user,
-            accessToken: response.data.info.user,
+            accessToken: response.data.info.accessToken,
           })
         );
+        localStorage.setItem("accessToken", response.data.info.accessToken);
         setEmail("");
         setPassword("");
         setConfirmPassword("");

@@ -42,6 +42,7 @@ function Login() {
             accessToken: response.data.info.accessToken,
           })
         );
+        localStorage.setItem("accessToken", response.data.info.accessToken);
         setEmail("");
         setPassword("");
         navigate("/");
